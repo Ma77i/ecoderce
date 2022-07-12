@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 import Loader from "../utils/Loader";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -33,36 +33,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-const API_URL = "http://localhost:8080/cart";
+
 const API_CART = "http://localhost:8080/api/cart";
 
 const Cart = () => {
+  const { user } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const param = useParams();
-  console.log("Param: ", param)
-
-  axios.get(API_URL)
-    .then((data) => {
-      console.log("D: ", {data});
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 
   useEffect(() => {
     setIsLoading(true);
-    axios
-      .get(`${API_CART}/${param.id}/products`)
-      .then(({ data }) => {
-        console.log(data);
-        setCart(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [param.id]);
+    axios.get(API_CART)
+    .then((res) => {
+      const resp = res.data;
+      const cart = resp.filter((item) => item.user === user._id);
+      setCart(cart);
+      setIsLoading(false);
+    })
+    .catch((err) => {
+      console.log("Error getting cart data", err);
+    })
+  }, [user._id]);
+
+
+  console.log("Cart: ", cart);
 
   if (isLoading) {
     return <Loader />;
@@ -85,12 +79,12 @@ const Cart = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cart.map((row) => (
-              <StyledTableRow key={row.name}>
+            {cart.products.map((row) => (
+              <StyledTableRow key={row.title}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {row.title}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.fat}</StyledTableCell>
                 <StyledTableCell align="right">{row.carbs}</StyledTableCell>
                 <StyledTableCell align="right">{row.protein}</StyledTableCell>

@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
-import Store from "./components/Home/Store";
 import NavBar from "./components/NavBar";
 import SignIn from "./components/user/Login";
 import SignUp from "./components/user/Register";
@@ -22,16 +21,11 @@ const App = () => {
           <Route path="/register" element={<SignUp />} />
           <Route path="/store" element={
             <ProtectedRoute>
-              <Store />
-            </ProtectedRoute>
-          } />
-          <Route path="/products" element={
-            <ProtectedRoute>
               <ItemListContainer />
             </ProtectedRoute>
             } />
-          <Route path="/products/:id" element={<ItemDetailContainer />} />
-          <Route path="/cart/:id" element={
+          <Route path="/store/:id" element={<ItemDetailContainer />} />
+          <Route path="/cart" element={
             <ProtectedRoute>
               <Cart />
             </ProtectedRoute>

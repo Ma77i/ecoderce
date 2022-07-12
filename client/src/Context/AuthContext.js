@@ -13,6 +13,7 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [ auth, setAuth ] = useState(null)
+  const [ user, setUser ] = useState(null)
   const [ userCredentials, setUserCredentials ] = useState({
     email: '',
     password: ''
@@ -25,8 +26,10 @@ export const AuthProvider = ({ children }) => {
     axios.post(API_LOGIN, userCredentials)
       .then((res) => {
         const token = res.data;
-        console.log("TOKENFRONT: ", res.data);
+        console.log("TOKENFRONT: ", res.data.user);
         setAuth(token)
+        setUser(res.data.user)
+        localStorage.setItem('user', res.data)
         navigate('/store')
       })
       .catch((err) => {
@@ -50,6 +53,7 @@ export const AuthProvider = ({ children }) => {
 
   const values = {
       auth: auth,
+      user: user,
       setAuth: setAuth,
       userCredentials: userCredentials,
       setUserCredentials: setUserCredentials,

@@ -11,7 +11,7 @@ const ItemListContainer = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
-  const { userCredentials } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   // API
   useEffect(() => {
@@ -23,7 +23,6 @@ const ItemListContainer = () => {
         }
       )
     }, []);
-  console.log("items", items)
 
   if (isLoading) {
     return <Loader />
@@ -32,7 +31,7 @@ const ItemListContainer = () => {
   if (!isLoading) {
     return (
       <>
-        <h2>Bienvenido {userCredentials.email}</h2>
+        <h2>Bienvenido {user.firstName}</h2>
         <ItemList items={items} isLoading={isLoading}/>
       </>
     );

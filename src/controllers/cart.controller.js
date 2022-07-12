@@ -40,15 +40,19 @@ module.exports = {
 
   // obtener un carrito por usuario
   getCartByUser: async (req, res) => {
-    const id = req.user;
+    const {id} = req.params;
+    console.log("IDS", id)
+
     if (!id) {
-      return res.sendStatus(404);
+      return res.status(404).send("No hay usuario");
     }
 
     try {
-      const cart = await cartModel.findOne({ user: id });
+      const cart = await cartModel.findOne({ user: id.toString() });
+      console.log("CARRITO", cart)
       res.status(200).send(cart);
     } catch (error) {
+      console.log("error get cart by user", error);
       logger.error(error);
       res.status(500).send(error);
     }
@@ -59,7 +63,7 @@ module.exports = {
     const { id, idprod } = req.params;
 
     try {
-      const cart = await cartModel.findById({ _id: id });
+      const cart = await cartModel.findOne({ user: id });
       const idpd = await prodModel.findById({ _id: idprod });
 
       cart.products.push(idpd);
@@ -74,11 +78,25 @@ module.exports = {
   },
 
   // borrar un carrito
-  deleteCart: async (req, res) => {
+  // deleteCart: async (req, res) => {
+  //   const { id } = req.params;
+  //   try {
+  //     await cartModel.deleteOne({ _id: id });
+  //     logger.info("Carrito borrado con exito");
+  //     res.status(200).send("Cart deleted");
+  //   } catch (error) {
+  //     logger.error(error);
+  //     res.status(500).send(error);
+  //   }
+  // },
+
+  // borrar un carrito
+  emptyCart: async (req, res) => {
     const { id } = req.params;
     try {
-      await cartModel.deleteOne({ _id: id });
-      logger.info("Carrito borrado con exito");
+      const cart = await cartModel.findById({ _id: id });
+      cart.products = [];
+      logger.info("Carrito vaciado con exito");
       res.status(200).send("Cart deleted");
     } catch (error) {
       logger.error(error);

@@ -9,8 +9,6 @@ const ProtectedRoute = ({ children }) => {
   
   React.useEffect(() => {
     if (!auth) {
-      console.log("authPVTR: ", auth);
-
       navigate("/login");
     }
   }, [auth, navigate]);

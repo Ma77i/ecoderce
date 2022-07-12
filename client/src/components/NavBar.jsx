@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 
 
 
-const pages = ["Products", "Cart", "Store" ];
+const pages = ["Store", "Cart" ];
 const settings = ["Profile", "Account", "Admin", "Logout"];
 
 const NavBar = () => {
@@ -105,18 +105,20 @@ const NavBar = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">
-                      <Link
-                        style={{ textDecoration: "none", color: "white" }}
-                        to={`/${page.toLowerCase()}`}
-                      >
-                        {page}
-                      </Link>
-                    </Typography>
-                  </MenuItem>
-                ))}
+                { 
+                  pages.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">
+                        <Link
+                          style={{ textDecoration: "none", color: "white" }}
+                          to={`/${page.toLowerCase()}`}
+                          >
+                          {page}
+                        </Link>
+                      </Typography>
+                    </MenuItem>
+                  ))
+                }
               </Menu>
             </Box>
 

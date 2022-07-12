@@ -67,8 +67,6 @@ const authJWT = require("../middlewares/jwt.middleware");
 router.get("/store", authJWT, async (req, res) => {
   const user = req.user;
 
-  console.log("USERBK: ", user);
-
   try {
     const prods = await productModel.find().lean();
     const cart = await cartModel.findOne({ user: user._id.toString() });
@@ -96,9 +94,8 @@ router.post(
   (req, res) => {
     const token = generateToken(req.user);
     res.clearCookie("token");
-    console.log("TOKENBACK: ", token);
     res.cookie("token", token);
-    res.status(200).send(token);
+    res.status(200).send({user: req.user, token: token});
   }
 );
 
