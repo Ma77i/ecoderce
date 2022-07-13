@@ -1,7 +1,8 @@
 import * as React from "react";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+// import { CartContext } from "../../Context/CartContext";
 import Loader from "../utils/Loader";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -37,11 +38,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const API_CART = "http://localhost:8080/api/cart";
 
 const Cart = () => {
+//  const { cart } = useContext(CartContext);
+
+
+
+
   const { user } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
+  // setIsLoading(true);
+  React.useEffect(() => {
     setIsLoading(true);
     axios.get(API_CART)
     .then((res) => {
@@ -54,9 +60,6 @@ const Cart = () => {
       console.log("Error getting cart data", err);
     })
   }, [user._id]);
-
-
-  console.log("Cart: ", cart);
 
   if (isLoading) {
     return <Loader />;
@@ -79,13 +82,13 @@ const Cart = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cart.products.map((row) => (
-              <StyledTableRow key={row.title}>
+            {cart.map((row) => (
+              <StyledTableRow key={row.products._id}>
                 <StyledTableCell component="th" scope="row">
-                  {row.title}
+                  {row.products.thumbnail}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                <StyledTableCell align="right">{row.products.title}</StyledTableCell>
+                <StyledTableCell align="right">{row.products.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.carbs}</StyledTableCell>
                 <StyledTableCell align="right">{row.protein}</StyledTableCell>
               </StyledTableRow>

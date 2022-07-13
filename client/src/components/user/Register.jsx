@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
-import axios from 'axios';
-import { Navigate } from "react-router-dom";
+import { useContext} from 'react';
+import { AuthContext } from '../../Context/AuthContext';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const URL = "http://localhost:8080/register";
 
 const Copyright = (props) => {
   return (
@@ -43,34 +41,7 @@ const theme = createTheme({
 });
 
 const SignUp = () => {
-  const [token, setToken ] = useState(null)
-  const [ userCredentials, setUserCredentials ] = useState({
-    firstName: '',
-    lastName: '',
-    userName: '',
-    phone: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios.post(URL, userCredentials)
-      .then((res) => {
-        const tok = res.data;
-        console.log(tok)
-        setToken(tok)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  };
-
-  if (token) {
-    return <Navigate to="/products"/>
-  }
+  const { handleSubmitRegister, registerCredentials, setRegisterCredentials } = useContext(AuthContext);
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,7 +61,7 @@ const SignUp = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmitRegister} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -100,8 +71,8 @@ const SignUp = () => {
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  value={userCredentials.firstName}
-                  onChange={(e)=>{setUserCredentials({ ...userCredentials, firstName: e.target.value })}}
+                  value={registerCredentials.firstName}
+                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, firstName: e.target.value })}}
                   autoFocus
                 />
               </Grid>
@@ -112,8 +83,8 @@ const SignUp = () => {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  value={userCredentials.lastName}
-                  onChange={(e)=>{setUserCredentials({ ...userCredentials, lastName: e.target.value })}}
+                  value={registerCredentials.lastName}
+                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, lastName: e.target.value })}}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -124,8 +95,8 @@ const SignUp = () => {
                   id="userName"
                   label="User Name"
                   name="userName"
-                  value={userCredentials.userName}
-                  onChange={(e)=>{setUserCredentials({ ...userCredentials, userName: e.target.value })}}
+                  value={registerCredentials.userName}
+                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, userName: e.target.value })}}
                   autoComplete="user-name"
                 />
               </Grid>
@@ -136,8 +107,8 @@ const SignUp = () => {
                   id="phone"
                   label="Phone "
                   name="phone"
-                  value={userCredentials.phone}
-                  onChange={(e)=>{setUserCredentials({ ...userCredentials, phone: e.target.value })}}
+                  value={registerCredentials.phone}
+                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, phone: e.target.value })}}
                   autoComplete="phone"
                 />
               </Grid>
@@ -148,8 +119,8 @@ const SignUp = () => {
                   id="email"
                   label="Email Address"
                   name="email"
-                  value={userCredentials.email}
-                  onChange={(e)=>{setUserCredentials({ ...userCredentials, email: e.target.value })}}
+                  value={registerCredentials.email}
+                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, email: e.target.value })}}
                   autoComplete="email"
                 />
               </Grid>
@@ -161,8 +132,8 @@ const SignUp = () => {
                   label="Password"
                   type="password"
                   id="password"
-                  value={userCredentials.password}
-                  onChange={(e)=>{setUserCredentials({ ...userCredentials, password: e.target.value })}}
+                  value={registerCredentials.password}
+                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, password: e.target.value })}}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -174,8 +145,8 @@ const SignUp = () => {
                   label="Confirm Password"
                   type="password"
                   id="confirmPassword"
-                  value={userCredentials.confirmPassword}
-                  onChange={(e)=>{setUserCredentials({ ...userCredentials, confirmPassword: e.target.value })}}
+                  value={registerCredentials.confirmPassword}
+                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, confirmPassword: e.target.value })}}
                   autoComplete="new-confirm-password"
                 />
               </Grid>

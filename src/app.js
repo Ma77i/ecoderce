@@ -110,6 +110,7 @@ const adminRouter = require("./routes/admin.routes");
 const cartRouter = require("./routes/api.cart.routes");
 const chatRouter = require("./routes/api.chat.routes");
 const productRouter = require("./routes/api.products.routes");
+const signRouter = require("./routes/api.sign.routes");
 const userRouter = require("./routes/api.user.routes");
 const homeRouter = require("./routes/home.routes");
 
@@ -117,6 +118,7 @@ app.use("/admin", adminRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/products", productRouter);
+app.use("/api/sign", signRouter);
 app.use("/api/users", userRouter);
 app.use("/", homeRouter);
 

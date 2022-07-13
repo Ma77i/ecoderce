@@ -51,7 +51,7 @@ const authJWT = require("../middlewares/jwt.middleware");
 //   try {
 //     const prods = await productModel.find().lean();
 //     const cart = await cartModel.findOne({ user: user._id.toString() });
-//     res.send({
+//     res.render({
 //       firstName: user.firstName,
 //       cartId: cart._id,
 //       products: prods
@@ -116,6 +116,13 @@ router.post(
     res.status(200).send(token);
   }
 );
+
+// GET Loguot
+router.get("/logout", auth, (req, res) => {
+  const { firstName } = req.user;
+  req.logOut();
+  res.render("logout", { firstName });
+});
 
 // add avatar image
 router.get("/addAvatar", auth, (req, res) => {
@@ -200,18 +207,13 @@ router.get("/account", auth, async (req, res) => {
 });
 
 // logout
-router.get("/logout", auth, (req, res) => {
-  const { firstName } = req.user;
-  req.logOut();
-  res.status(200);
-});
-
-// // logout hdb
 // router.get("/logout", auth, (req, res) => {
 //   const { firstName } = req.user;
 //   req.logOut();
-//   res.render("logout", { firstName });
+//   res.status(200);
 // });
+
+
 
 // error
 router.get("*", (req, res) => {

@@ -9,28 +9,31 @@ import ItemListContainer from "./components/Items/ItemListContainer";
 import ItemDetailContainer from "./components/Items/ItemDetailContainer";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { AuthProvider } from "./Context/AuthContext";
+// import { CartProvider } from "./Context/CartContext";
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <NavBar />
-        <Routes>
-          <Route path="*" element={<Home />} />
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/register" element={<SignUp />} />
-          <Route path="/store" element={
-            <ProtectedRoute>
-              <ItemListContainer />
-            </ProtectedRoute>
+        {/* <CartProvider> */}
+          <NavBar />
+          <Routes>
+            <Route path="*" element={<Home />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/store" element={
+              <ProtectedRoute>
+                <ItemListContainer />
+              </ProtectedRoute>
+              } />
+            <Route path="/store/:id" element={<ItemDetailContainer />} />
+            <Route path="/cart" element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
             } />
-          <Route path="/store/:id" element={<ItemDetailContainer />} />
-          <Route path="/cart" element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          } />
-        </Routes>
+          </Routes>
+        {/* </CartProvider> */}
       </AuthProvider>
     </Router>
   );

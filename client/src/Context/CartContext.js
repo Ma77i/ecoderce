@@ -1,12 +1,30 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { AuthContext } from "./AuthContext";
+// import { AuthContext } from "./AuthContext";
 import axios from 'axios';
 
 const API_CART = 'http://localhost:8080/api/cart';
+
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const { user } = useContext(AuthContext);
+
+  // const [ cart, setCart ] = useState([]);
+  // setCart({
+  //   productos: [{
+  //     id: 1,
+  //     title: 'Producto 1',
+  //     price: 100,
+  //   }],
+  // })
+
+  // const values = {
+  //   cart
+  // }
+  
+  // const { user } = useContext(AuthContext);
+  const uId = "62cf1db532cb8b022baa5a48"
+  const userId = localStorage.getItem('user')
+  console.log(userId)
 
   const [cart, setCart] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -17,19 +35,15 @@ export const CartProvider = ({ children }) => {
     axios.get(API_CART)
     .then((res) => {
       const resp = res.data;
-      const cart = resp.filter((item) => item.user === user._id);
-      setCart(cart);
+      setCart(resp);
+      // const cart = resp.filter((item) => item.user === uId);
+      // setCart(cart);
       setIsLoading(false);
     })
     .catch((err) => {
       console.log("Error getting cart data", err);
     })
-  }, [user._id]);
-
-  console.log("cartFromContext: ", cart);
-  // cart.map((item) => console.log(item.products));
-
-
+  }, []);
 
   const values = {
     cart: cart,

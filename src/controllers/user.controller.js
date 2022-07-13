@@ -6,6 +6,8 @@ const userModel = require("../models/userModel");
 const logger = require("../log/winston");
 
 module.exports = {
+
+  
   getAllUsers: async (req, res) => {
     const users = await userModel.find().lean();
     logger.info(`Usuarios: ${users.length}`);
