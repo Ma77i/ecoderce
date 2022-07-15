@@ -44,33 +44,14 @@ const auth = require("../middlewares/auth");
 const authJWT = require("../middlewares/jwt.middleware");
 
 
-// // GET store template hbs
-// router.get("/store", authJWT, async (req, res) => {
-//   const user = req.user;
-//   console.log("USERBK: ", user);
-//   try {
-//     const prods = await productModel.find().lean();
-//     const cart = await cartModel.findOne({ user: user._id.toString() });
-//     res.render({
-//       firstName: user.firstName,
-//       cartId: cart._id,
-//       products: prods
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     logger.error(err);
-//     res.status(500).send(err);
-//   }
-// });
-
-// GET store 
-router.get("/store", authJWT, async (req, res) => {
+// GET store template hbs
+router.get("/", auth,  authJWT, async (req, res) => {
   const user = req.user;
 
   try {
     const prods = await productModel.find().lean();
     const cart = await cartModel.findOne({ user: user._id.toString() });
-    res.send({
+    res.status(200).render("main",{
       firstName: user.firstName,
       cartId: cart._id,
       products: prods
@@ -81,6 +62,7 @@ router.get("/store", authJWT, async (req, res) => {
     res.status(500).send(err);
   }
 });
+
 
 // GET Login
 router.get("/login", (req, res) => res.render("login"));
@@ -95,7 +77,7 @@ router.post(
     const token = generateToken(req.user);
     res.clearCookie("token");
     res.cookie("token", token);
-    res.status(200).send({user: req.user, token: token});
+    res.status(200).redirect("/");
   }
 );
 
@@ -113,7 +95,7 @@ router.post(
     const token = generateToken(req.user);
     res.clearCookie("token");
     res.cookie("token", token);
-    res.status(200).send(token);
+    res.status(200).redirect("/");
   }
 );
 
@@ -121,6 +103,7 @@ router.post(
 router.get("/logout", auth, (req, res) => {
   const { firstName } = req.user;
   req.logOut();
+  res.clearCookie("token");
   res.render("logout", { firstName });
 });
 
@@ -147,9 +130,9 @@ router.get("/cart", auth, authJWT, async (req, res) => {
       cart.products.map((pId) => productModel.findById(pId).lean())
     );
     const total = products.reduce((tot, p) => tot + p.price, 0);
-    console.log(cart);
-    res.status(200).send("HOLA");
-    // res.render("cart", { cartId: cart._id, products, total });
+
+    logger.info(`Productos en el carrito: ${cart.products.length}`);
+    res.render("cart", { cartId: cart._id, products, total });
   } catch (error) {
     console.log(error);
     logger.error(error);
@@ -205,15 +188,6 @@ router.get("/account", auth, async (req, res) => {
   const { firstName, lastName, avatar, userName, email } = req.user;
   res.render("account", { firstName, lastName, avatar, userName, email });
 });
-
-// logout
-// router.get("/logout", auth, (req, res) => {
-//   const { firstName } = req.user;
-//   req.logOut();
-//   res.status(200);
-// });
-
-
 
 // error
 router.get("*", (req, res) => {

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const ProductsSchema = new mongoose.Schema({
   title: {
     type: String,
-    default: faker.vehicle.bicycle()
+    default: faker.commerce.product()
   },
   description: {
     type: String,
@@ -16,15 +16,19 @@ const ProductsSchema = new mongoose.Schema({
   },
   stock: {
     type: Number,
-    default: 0
+    default: faker.datatype.number({ min: 1, max: 20 })
   },
   code: {
     type: String,
-    default: faker.vehicle.vin()
+    default: faker.datatype.uuid()
   },
   thumbnail: {
     type: String,
-    default: faker.image.sports()
+    default: faker.image.business()
+  },
+  quantity: {
+    type: Number,
+    default: 1
   },
   timestamp: {
     type: Number,
@@ -32,6 +36,6 @@ const ProductsSchema = new mongoose.Schema({
   }
 });
 
-const Products = mongoose.model("productos", ProductsSchema);
+const Products = mongoose.model("products", ProductsSchema);
 
 module.exports = Products;

@@ -8,6 +8,7 @@
                     <th scope="col">&nbsp;</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
                 </tr>
             </thead>
             <tbody class="">
@@ -16,6 +17,7 @@
                     <td class="align-middle"><img src="{{this.thumbnail}}" alt="{{this.title}}" width="60"></td>
                     <td>{{this.title}}</td>
                     <td>{{this.price}}</td>
+                    <td>{{this.quantity}}</td>
                     <td>
                         <button class="btn btn-dark" onclick="removeFromCart('{{{../cartId}}}', '{{this._id}}')">Borrar</button>
                     </td>

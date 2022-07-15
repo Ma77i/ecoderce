@@ -13,6 +13,7 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [ auth, setAuth ] = useState(null)
+  
   const [ user, setUser ] = useState(null)
   const [ loginCredentials, setLoginCredentials ] = useState({
     email: '',

@@ -1,5 +1,5 @@
 import * as React from "react";
-// import axios from "axios";
+import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 // import { CartContext } from "../../Context/CartContext";
@@ -10,26 +10,53 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
-// const API_CART = 'http://localhost:8080/api/cart';
+
+const API_CART = 'http://localhost:8080/api/cart';
+
+const CURRENT_CART = 'http://localhost:8080/api/cart/currentCart';
 
 const Item = ({ item }) => {
 
-  const { user } = useContext(AuthContext);
-  // const { addToCart } = useContext(CartContext);
+  const { user, auth } = useContext(AuthContext);
 
-  // const handleAddToCart = (userId, productId) => {
-  //   axios.post(`${API_CART}/${userId}/products/${productId}`)
-  //     .then((res) => {
-  //       console.log("Product added to cart", res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error adding product to cart", err);
-  //     })
-  // }
+  const [cart, setCart] = React.useState([]);
+  const [items, setItems] = React.useState([]);
 
-  const handleAddToCart = (cartId, productId) => {
-    console.log("add to cart", cartId, productId);
+  React.useEffect(() => {
+    axios.get(`${CURRENT_CART}/${user._id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${auth.token}`
+      }
+    }).then((res) => {
+      setCart(res.data);
+      setItems(res.data.products);
+    });
+  }, [user._id, auth.token]);
+
+
+  // console.log("_CART: ", cart);
+  // console.log("_ITEMS: ", items);
+  // console.log("_USER: ", user);
+  // console.log("_ITEM: ", item);
+
+  const handleAddToCart = (productId) => {
+    // axios.post(`${API_CART}/${cartId}/products/${productId}`)
+    //   .then((res) => {
+    //     console.log("Product added to cart", res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error adding product to cart", err);
+    //   })
+    console.log("ITEM: ", item);
+    items.push(item); 
   }
+
+
+
+  // const handleAddToCart = (cartId, productId) => {
+  //   console.log("add to cart", cartId, productId);
+  // }
 
 
   return (
@@ -51,7 +78,7 @@ const Item = ({ item }) => {
       <CardActions>
         <Button
           size="small"
-          onClick={handleAddToCart(user._id, item._id)}
+          onClick={handleAddToCart(item._id)}
         >
           Add to Cart
           {/* <Link to={`/cart`}> Add to Cart </Link> */}

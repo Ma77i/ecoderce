@@ -6,7 +6,7 @@ module.exports = {
     return jwt.sign({ user }, config.SECRET, { expiresIn: "1h" });
   },
   verifyToken: (token) => {
-    console.log("Verifying token: " + token)
+    // console.log("Verifying token: " + token)
     return jwt.verify(token, config.SECRET )
   }
 }

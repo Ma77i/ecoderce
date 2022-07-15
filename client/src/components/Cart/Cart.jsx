@@ -35,31 +35,44 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-const API_CART = "http://localhost:8080/api/cart";
+// const API_CART = "http://localhost:8080/api/cart";
+const CURRENT_CART = "http://localhost:8080/api/cart/currentCart";
 
 const Cart = () => {
 //  const { cart } = useContext(CartContext);
 
-
-
-
   const { user } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // setIsLoading(true);
+
   React.useEffect(() => {
     setIsLoading(true);
-    axios.get(API_CART)
-    .then((res) => {
-      const resp = res.data;
-      const cart = resp.filter((item) => item.user === user._id);
-      setCart(cart);
-      setIsLoading(false);
-    })
-    .catch((err) => {
-      console.log("Error getting cart data", err);
-    })
+    axios.get(`${CURRENT_CART}/${user._id}`)
+      .then(res => {
+        setCart(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("Error getting cart data", err);
+      }) 
   }, [user._id]);
+  console.log("_FROM_CART: ", cart);
+  console.log("_CART_TOTAL: ", cart.total);
+  console.log("_CART_ITEMS: ", cart.products);
+
+  // React.useEffect(() => {
+  //   setIsLoading(true);
+  //   axios.get(API_CART)
+  //   .then((res) => {
+  //     const resp = res.data;
+  //     const cart = resp.filter((item) => item.user === user._id);
+  //     setCart(cart);
+  //     setIsLoading(false);
+  //   })
+  //   .catch((err) => {
+  //     console.log("Error getting cart data", err);
+  //   })
+  // }, [user._id]);
 
   if (isLoading) {
     return <Loader />;
@@ -82,7 +95,18 @@ const Cart = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cart.map((row) => (
+            {cart.products.map((i) => (
+              <StyledTableRow key={i._id}>
+              <StyledTableCell component="th" scope="row">
+                {i.thumbnail}
+              </StyledTableCell>
+              <StyledTableCell align="right">{i.title}</StyledTableCell>
+              <StyledTableCell align="right">{i.price}</StyledTableCell>
+              <StyledTableCell align="right">{i.stock}</StyledTableCell>
+              <StyledTableCell align="right">{cart.total}</StyledTableCell>
+            </StyledTableRow>
+            ))}
+            {/* {cart.map((row) => (
               <StyledTableRow key={row.products._id}>
                 <StyledTableCell component="th" scope="row">
                   {row.products.thumbnail}
@@ -92,7 +116,7 @@ const Cart = () => {
                 <StyledTableCell align="right">{row.carbs}</StyledTableCell>
                 <StyledTableCell align="right">{row.protein}</StyledTableCell>
               </StyledTableRow>
-            ))}
+            ))} */}
           </TableBody>
         </Table>
       </TableContainer>
