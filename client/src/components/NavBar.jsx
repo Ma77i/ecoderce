@@ -166,13 +166,15 @@ const NavBar = () => {
               ))}
             </Box>
 
+            {auth && (
             <Box sx={{ flexGrow: 0 }}>
+              
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src="/static/img/icon.png" />
                 </IconButton>
               </Tooltip>
-              {auth && (
+              
                <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -195,8 +197,8 @@ const NavBar = () => {
                   </MenuItem>
                 ))}
               </Menu>
-              )}
             </Box>
+              )}
           </Toolbar>
         </Container>
       </AppBar>

@@ -72,13 +72,10 @@ module.exports = {
         await cart.save();
         logger.info("Producto agregado con exito");
       } else {
-        const toAdd = cart.products.find(i=>i._id.toString() === idprod)
-        toAdd.quantity += 1;
-        cart.products.push(toAdd);
-        // console.log("TOADD", toAdd);
-        // productToAdd.quantity += 1;
-        // console.log("PRODUCTO", productToAdd);
-
+        toReplace = cart.products.find(i=>i._id.toString() === idprod)
+        cart.products.splice(cart.products.indexOf(toReplace), 1);
+        toReplace.quantity += 1
+        cart.products.push(toReplace);
         await cart.save();
         logger.info(`Producto ${productToAdd.title} ya existe en el carrito, se agrega cantidad, total: ${productToAdd.quantity}`);
       }
@@ -117,7 +114,7 @@ module.exports = {
       cart.products = [];
       await cart.save();
       logger.info("Carrito vaciado con exito");
-      res.status(200).send("Cart empty");
+      res.status(200).json(cart);
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -130,8 +127,8 @@ module.exports = {
 
     try {
       const cart = await cartModel.findById({ _id: id });
-      cart.products = cart.products.filter((i) => i._id !== product);
-      console.log(cart.products);
+      productFromCart = cart.products.filter(i=> i._id !== product);
+      console.log("CART filter", productFromCart);
       await cart.save();
       logger.info("Producto borrado con exito");
       res.status(200).send(cart);
@@ -167,13 +164,11 @@ module.exports = {
     try {
       // const cart = await cartModel.findOne({ user: userId._id.toString() });
       const cart = await cartModel.findOne({ user: id });
-      const products = await Promise.all(
-        cart.products.map((pId) => prodModel.findById(pId).lean())
-      );
-      const total = products.reduce((tot, p) => tot + p.price, 0);
+      const productsInCart = cart.products
+      const total = productsInCart.reduce((tot, p) => tot + p.price * p.quantity, 0);
       res.send({ 
         cartId: cart._id, 
-        products: products, 
+        products: productsInCart, 
         total: total
        });
     } catch (error) {

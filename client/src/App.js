@@ -9,6 +9,7 @@ import ItemListContainer from "./components/Items/ItemListContainer";
 import ItemDetailContainer from "./components/Items/ItemDetailContainer";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { AuthProvider } from "./Context/AuthContext";
+import Order from "./components/Cart/Order";
 // import { CartProvider } from "./Context/CartContext";
 
 const App = () => {
@@ -30,6 +31,11 @@ const App = () => {
             <Route path="/cart" element={
               <ProtectedRoute>
                 <Cart />
+              </ProtectedRoute>
+            } />
+            <Route path="/order" element={
+              <ProtectedRoute>
+                <Order />
               </ProtectedRoute>
             } />
           </Routes>

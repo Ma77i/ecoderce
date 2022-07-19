@@ -6,9 +6,36 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
-import ItemCount from "./ItemCount";
+
+import { AuthContext } from "../../Context/AuthContext";
+import axios from "axios";
+const API_CART = 'http://localhost:8080/api/cart';
+const CURRENT_CART = 'http://localhost:8080/api/cart/currentCart';
 
 const ItemDetail = ({ item }) => {
+  const { user, auth } = React.useContext(AuthContext);
+  const [cart, setCart] = React.useState([]);
+
+  React.useEffect(() => {
+    axios.get(`${CURRENT_CART}/${user._id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${auth.token}`
+      }
+    }).then((res) => {
+      setCart(res.data);
+    });
+  }, [user._id, auth.token]);
+
+  const handleAddToCart = () => {
+    axios.post(`${API_CART}/${cart.cartId}/products/${item._id}`)
+      .then((res) => {
+        console.log("Product added to cart", res.data);
+      })
+      .catch((err) => {
+        console.log("Error adding product to cart", err);
+      })
+  }
 
   return (
 
@@ -24,15 +51,14 @@ const ItemDetail = ({ item }) => {
             {item.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {item.description}
+            $ {item.price}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">
+          <Button size="small" onClick={handleAddToCart}>
             <Link to="/cart">Add to Cart</Link>
           </Button>
         </CardActions>
-        <ItemCount item={item} />
       </Card>
   );
 };

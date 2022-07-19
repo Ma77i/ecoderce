@@ -63,7 +63,7 @@ module.exports = (passport) => {
       });
 
       const cart = await cartModel.create({ user: user._id.toString() });
-      logger.info(`CARRO CREADO CON EXITO: ${cart}`);
+      logger.info(`CARRO CREADO CON EXITO PARA EL USUARIO ${user.userName}`);
 
       const template = `
         <div>

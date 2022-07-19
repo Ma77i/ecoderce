@@ -76,7 +76,9 @@ router.post(
   (req, res) => {
     const token = generateToken(req.user);
     res.clearCookie("token");
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true
+    });
     res.status(200).redirect("/");
   }
 );
@@ -126,9 +128,10 @@ router.get("/cart", auth, authJWT, async (req, res) => {
 
   try {
     const cart = await cartModel.findOne({ user: userId._id.toString() });
-    const products = await Promise.all(
-      cart.products.map((pId) => productModel.findById(pId).lean())
-    );
+    // const products = await Promise.all(
+    //   cart.products.map((pId) => productModel.findById(pId).lean())
+    // );
+    const products = cart.products
     const total = products.reduce((tot, p) => tot + p.price, 0);
 
     logger.info(`Productos en el carrito: ${cart.products.length}`);

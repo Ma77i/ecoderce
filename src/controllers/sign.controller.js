@@ -1,4 +1,3 @@
-const passport = require("passport");
 const { generateToken } = require("../auth");
 
 module.exports = {

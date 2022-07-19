@@ -43,8 +43,6 @@ const theme = createTheme({
 const SignIn = () => {
   const { loginCredentials, handleSubmitLogin, handleChange } = React.useContext(AuthContext);
 
-
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
