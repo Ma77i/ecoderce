@@ -10,6 +10,13 @@ import ItemDetailContainer from "./components/Items/ItemDetailContainer";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { AuthProvider } from "./Context/AuthContext";
 import Order from "./components/Cart/Order";
+import Account from "./components/user/Account";
+import AdminContainer from "./components/Admin/AdminContainer";
+import UserAdmin from "./components/Admin/UserAdmin";
+import ProductAdmin from "./components/Admin/ProductAdmin";
+import OrderAdmin from "./components/Admin/OrderAdmin";
+import AddProduct from "./components/Admin/AddProduct";
+
 // import { CartProvider } from "./Context/CartContext";
 
 const App = () => {
@@ -36,6 +43,36 @@ const App = () => {
             <Route path="/order" element={
               <ProtectedRoute>
                 <Order />
+              </ProtectedRoute>
+            } />
+            <Route path="/account" element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminContainer />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users" element={
+              <ProtectedRoute>
+                <UserAdmin />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/products" element={
+              <ProtectedRoute>
+                <ProductAdmin />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/orders" element={
+              <ProtectedRoute>
+                <OrderAdmin />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/products/add" element={
+              <ProtectedRoute>
+                <AddProduct />
               </ProtectedRoute>
             } />
           </Routes>

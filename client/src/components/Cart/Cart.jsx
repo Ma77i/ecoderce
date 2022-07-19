@@ -155,7 +155,7 @@ const Cart = () => {
               m={2}
               onClick={handleEmptyCart}
             >
-              Vaciar Carrito
+              Empty Cart
             </Button>
             <Button variant="contained" color="success" align="right" m={2}>
               <Link style={{ textDecoration: "none", color: "white" }} to="/order">

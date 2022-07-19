@@ -45,7 +45,7 @@ const authJWT = require("../middlewares/jwt.middleware");
 
 
 // GET store template hbs
-router.get("/", auth,  authJWT, async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const user = req.user;
 
   try {

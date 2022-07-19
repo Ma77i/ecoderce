@@ -7,17 +7,21 @@ module.exports = (req, res, next) => {
   // const tokenCook = req.headers.cookie.split(" ")[1];
 
   if (!verifyToken(tokenAuth)) {
-    return res.status(401).send({ message: "Unauthorized" });
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
   }
   
-  // if (verifyToken(tokCook1)) {
-  //   return next();
-  // }
-    
-  // if (verifyToken(tokenCook)) {
-  //   return next();
-  // }
-
   return next();
-      
+
+ 
+  // if (verifyToken(tokenAuth)) {
+  //   next();
+  // } else if (verifyToken(tokenCook)) {
+  //   next();
+  // } else if (verifyToken(tokCook1)) {
+  //   next();
+  // } else {
+  //   res.status(401).send({ message: "Unauthorized" });
+  // }
 };

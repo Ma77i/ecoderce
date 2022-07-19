@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 
 const pages = ["Store", "Cart" ];
-const settings = ["Profile", "Account", "Admin", "Logout"];
+const settings = ["Account", "Admin", "Logout"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -171,7 +171,7 @@ const NavBar = () => {
               
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/img/icon.png" />
+                  <Avatar alt="picture" src={auth.user.avatar} />
                 </IconButton>
               </Tooltip>
               
@@ -193,7 +193,12 @@ const NavBar = () => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+
+                    <Typography textAlign="center">
+                      <Link 
+                        style={{ textDecoration: "none", color: "white" }}
+                        to={`/${setting.toLowerCase()}`}>{setting}</Link>
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>

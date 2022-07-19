@@ -41,6 +41,7 @@ module.exports = {
 
     try {
       const product = await productModel.getModel("product").create(body);
+      logger.info(`Producto creado: ${product.title}`);
       res.status(201).send(product);
     } catch (error) {
       logger.error(error);
@@ -68,10 +69,14 @@ module.exports = {
 
     try {
       await productModel.getModel("product").deleteOne({ _id: id });
-      res.status(200).send("Product deleted");
+      const products = await productModel.getModel("product").find();
+      res.status(200).json(products);
     } catch (err) {
       logger.error(`No id find${err}`);
-      res.status(500).send(err);
+      res.status(500).json({
+        message: "Error al borrar producto",
+        error: err
+      });
     }
   },
 

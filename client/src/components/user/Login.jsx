@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AuthContext} from '../../Context/AuthContext';
+import { AuthContext } from '../../Context/AuthContext';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
