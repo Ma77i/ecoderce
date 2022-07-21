@@ -12,7 +12,8 @@ import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import axios from 'axios';
-const API_URL = "http://localhost:8080/api/users";
+const API_USERS = "http://localhost:8080/api/users";
+const DELETE_USER = "http://localhost:8080/api/users/";
 
 
 const Demo = styled('div')(({ theme }) => ({
@@ -24,26 +25,36 @@ const UserAdmin = () => {
   
   // API
   React.useEffect(() => {
-    axios.get(`${API_URL}`)
+    axios.get(`${API_USERS}`)
       .then(({data}) => {
-          setUsers(data);
+          console.log(data.message);
+          setUsers(data.users);
         }
       )
     }, []);
 
-  console.log(users);
+  console.log("CHECKOUT PASSWORD ENCRYPTED", users);
+
+  const handleDelete = (id) => {
+    axios.delete(`${DELETE_USER}${id}`)
+      .then(({data}) => {
+          console.log(data.message);
+          setUsers(data.users);
+        }
+      ).catch(err => { console.log(err); });
+  }
   
   return (
-    // <>
-    //   {
-    //     items.map((item) => (
-    //       <div key={item._id}>
-    //         <p>{item.title}</p>
-    //       </div>
-    //     ))
-    //   }
-    // </>
-    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+    <Box 
+      sx={{ 
+        marginTop: 8,
+        display: 'flex',
+        justifyContent: 'center', 
+        flexDirection: 'column',
+        alignItems: 'center',
+        maxWidth: '50%',
+        margin: 'auto',
+      }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div" align="center" gutterBottom>
@@ -54,13 +65,13 @@ const UserAdmin = () => {
               {users.map((i)=> (
                 <ListItem key={i._id}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
+                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(i._id)}>
                       <DeleteIcon />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
-                    <Avatar alt={i.title} src={i.thumbnail} />
+                    <Avatar alt="user" src={i.avatar} />
                   </ListItemAvatar>
                   <ListItemText
                     primary={i.firstName + " " + i.lastName}

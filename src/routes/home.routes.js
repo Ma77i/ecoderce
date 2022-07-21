@@ -38,6 +38,7 @@ const orderModel = require("../models/orderModel");
 
 // import controllers
 const orderController = require("../controllers/order.controller");
+const signController = require("../controllers/sign.controller");
 
 // middlewares
 const auth = require("../middlewares/auth");
@@ -120,14 +121,14 @@ router.get("/addAvatar", auth, (req, res) => {
 });
 
 // upload avatar
-router.post("/addAvatar", upload.single("avatar"), orderController.updateAvatar);
+router.post("/addAvatar", upload.single("avatar"), signController.updateAvatar);
 
 // GET Cart
-router.get("/cart", auth, authJWT, async (req, res) => {
-  const userId = req.user;
+router.get("/cart", auth, async (req, res) => {
+  const user = req.user;
 
   try {
-    const cart = await cartModel.findOne({ user: userId._id.toString() });
+    const cart = await cartModel.findOne({ user: user._id.toString() });
     // const products = await Promise.all(
     //   cart.products.map((pId) => productModel.findById(pId).lean())
     // );
@@ -146,10 +147,10 @@ router.get("/cart", auth, authJWT, async (req, res) => {
 // GET Order
 router.get("/order", auth, async (req, res) => {
   const { email, firstName, phone } = req.user;
-  const userId = req.user;
+  const user = req.user;
   const context = { sent: false };
 
-  const cart = await cartModel.findOne({ user: userId._id.toString() });
+  const cart = await cartModel.findOne({ user: user._id.toString() });
   const products = await Promise.all(
     cart.products.map((pId) => productModel.findById(pId).lean())
   );
@@ -157,7 +158,7 @@ router.get("/order", auth, async (req, res) => {
 
   try {
     await orderModel.create({
-      userId: userId._id.toString(),
+      user: user._id.toString(),
       total
     });
     cart.products = [];

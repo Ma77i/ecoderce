@@ -1,0 +1,14 @@
+POST http://localhost:8080/api/sign/register
+# POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "firstName": "Alejandro",
+  "lastName": "Silva",
+  "userName": "Ale",
+  "phone": "123-456-1234",
+  "avatar": "/static/img/icon.png",
+  "email": "matrockass@gmail.com",
+  "password": "s",
+  "confirmPassword": "s"
+}

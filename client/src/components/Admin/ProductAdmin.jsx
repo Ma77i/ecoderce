@@ -29,7 +29,8 @@ const ProductAdmin = () => {
   React.useEffect(() => {
     axios.get(`${API_PRODUCTS}`)
       .then(({data}) => {
-          setItems(data);
+          console.log(data.message);
+          setItems(data.products);
         }
       )
     }, []);
@@ -37,13 +38,23 @@ const ProductAdmin = () => {
   const handleDelete = (id) => {
     axios.delete(`${DELETE_PRODUCT}${id}`)
       .then(({data}) => {
-          setItems(data);
+          console.log(data.message);
+          setItems(data.products);
         }
       )
   }
   
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+    <Box 
+      sx={{ 
+        marginTop: 8,
+        display: 'flex',
+        justifyContent: 'center', 
+        flexDirection: 'column',
+        alignItems: 'center',
+        maxWidth: '50%',
+        margin: 'auto',
+        }}>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div" align="center" gutterBottom>
@@ -65,6 +76,9 @@ const ProductAdmin = () => {
                   <ListItemText
                     primary={i.title}
                     secondary={i.description}
+                    tertiary={i.price}
+                    fourth={i.stock}
+
                   />
                 </ListItem>
               ))}

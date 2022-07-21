@@ -10,28 +10,35 @@ const logger = require("../log/winston");
 module.exports = {
   // obtener todos los carritos
   getAll: async (req, res) => {
-    const products = await cartModel.find().lean();
+    const cart = await cartModel.find().lean();
 
-    if (products.length === 0) {
-      logger.info("Carrito vacio");
+    if (cart.length === 0) {
+      logger.info("No carts found");
     } else {
-      logger.info(`Carritos listados: ${products.length}`);
+      logger.info(`Carts listed: ${cart.length}`);
     }
 
-    res.status(200).send(products);
+    res.status(200).json({
+      message: "Carts successfully retrieved",
+      cart: cart
+    });
   },
 
   // obtener un carrito por id
   getCartById: async (req, res) => {
     const { id } = req.params;
+
     if (!id) {
       return res.sendStatus(404);
     }
 
     try {
       const cart = await cartModel.findById({ _id: id });
-      logger.info(`CarritoId: ${id}`);
-      res.status(200).send(cart);
+      logger.info(`Cart listed, products: ${cart.products.length}`);
+      res.status(200).json({
+        message: "Cart successfully retrieved",
+        cart: cart
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -41,18 +48,18 @@ module.exports = {
   // obtener un carrito por usuario
   getCartByUser: async (req, res) => {
     const { id } = req.params;
-    console.log("IDS", id);
 
     if (!id) {
-      return res.status(404).send("No hay usuario");
+      return res.status(404).send("No user found");
     }
 
     try {
       const cart = await cartModel.findOne({ user: id.toString() });
-      console.log("CARRITO", cart);
-      res.status(200).send(cart);
+      res.status(200).json({
+        message: "Cart successfully retrieved",
+        cart: cart
+      });
     } catch (error) {
-      console.log("error get cart by user", error);
       logger.error(error);
       res.status(500).send(error);
     }
@@ -62,27 +69,29 @@ module.exports = {
   postCart: async (req, res) => {
     const { id, idprod } = req.params;
 
+    const cart = await cartModel.findById({ _id: id });
+    const productToAdd = await prodModel.findById({ _id: idprod });
+    const isIn = cart.products.find(i=>i._id.toString() === idprod);
     try {
-      const cart = await cartModel.findById({ _id: id });
-      const productToAdd = await prodModel.findById({ _id: idprod });
-      const isIn = cart.products.find(i=>i._id.toString() === idprod);
 
       if (!isIn) {
         cart.products.push(productToAdd);
         await cart.save();
-        logger.info("Producto agregado con exito");
+        logger.info("Product successfully added to cart");
       } else {
         toReplace = cart.products.find(i=>i._id.toString() === idprod)
         cart.products.splice(cart.products.indexOf(toReplace), 1);
         toReplace.quantity += 1
         cart.products.push(toReplace);
         await cart.save();
-        logger.info(`Producto ${productToAdd.title} ya existe en el carrito, se agrega cantidad, total: ${productToAdd.quantity}`);
+        logger.info(`${productToAdd.title} already exists in cart, added quantity: ${productToAdd.quantity}`);
       }
       
-      res.status(201).send(cart);
+      res.status(201).json({
+        message: "Product successfully added to cart",
+        cart: cart
+      });
     } catch (error) {
-      console.log(error);
       logger.error(error);
       res.status(500).send(error);
     }
@@ -93,8 +102,12 @@ module.exports = {
     const { id } = req.params;
     try {
       await cartModel.deleteOne({ _id: id });
-      logger.info("Carrito borrado con exito");
-      res.status(200).send("Cart deleted");
+      const carts = await cartModel.find();
+      logger.info("Cart successfully deleted");
+      res.status(200).json({
+        message: "Cart successfully deleted",
+        carts: carts
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -113,8 +126,11 @@ module.exports = {
       const cart = await cartModel.findById({ _id: id });
       cart.products = [];
       await cart.save();
-      logger.info("Carrito vaciado con exito");
-      res.status(200).json(cart);
+      logger.info("Cart successfully emptied");
+      res.status(200).json({
+        message: "Cart successfully emptied",
+        cart: cart
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -127,11 +143,13 @@ module.exports = {
 
     try {
       const cart = await cartModel.findById({ _id: id });
-      productFromCart = cart.products.filter(i=> i._id !== product);
-      console.log("CART filter", productFromCart);
+      cart.products = cart.products.filter( i => i._id.toString() !== product);
       await cart.save();
-      logger.info("Producto borrado con exito");
-      res.status(200).send(cart);
+      logger.info("Product successfully deleted from cart");
+      res.status(200).json({
+        message: "Product successfully deleted from cart",
+        cart: cart
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -142,8 +160,12 @@ module.exports = {
   deleteAll: async (req, res) => {
     try {
       await cartModel.deleteMany({});
-      logger.info("Se eliminaron todos los carritos");
-      res.status(200).send("Empty");
+      const carts = await cartModel.find();
+      logger.info("Carts successfully deleted");
+      res.status(200).json({
+        message: "Carts successfully deleted",
+        carts: carts
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -164,15 +186,12 @@ module.exports = {
     try {
       // const cart = await cartModel.findOne({ user: userId._id.toString() });
       const cart = await cartModel.findOne({ user: id });
-      const productsInCart = cart.products
-      const total = productsInCart.reduce((tot, p) => tot + p.price * p.quantity, 0);
-      res.send({ 
+      res.json({ 
+        message: "Cart successfully processed",
         cartId: cart._id, 
-        products: productsInCart, 
-        total: total
+        cart: cart
        });
     } catch (error) {
-      console.log(error);
       logger.error(error);
       res.status(500).send(error);
     }

@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const OrderSchema = mongoose.Schema({
-  userId: String,
+  user: String,
+  cart: [],
   total: { type: Number, default: 0 },
   created: { type: Date, default: Date.now },
   send: {

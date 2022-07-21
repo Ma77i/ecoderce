@@ -18,7 +18,8 @@ const ItemListContainer = () => {
     setIsLoading(true)
     axios.get(`${API_URL}`)
       .then(({data}) => {
-          setItems(data);
+          console.log(data.message);
+          setItems(data.products);
           setIsLoading(false)
         }
       )

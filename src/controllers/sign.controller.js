@@ -39,5 +39,25 @@ module.exports = {
     req.logout();
     res.clearCookie("token");
     res.status(200).send("Logout");
+  },
+
+  // // upload image
+  updateAvatar: async (req, res, next) => {
+    const img = req.file;
+    if (!img) {
+      logger.warn("Add a image");
+    }
+    const user = req.user;
+    try {
+      await userModel.findByIdAndUpdate(
+        { _id: user._id },
+        { avatar: `/static/img/${img.originalname}` }
+      );
+      res.status(201).redirect("/");
+    } catch (err) {
+      logger.error(err);
+      console.log(err);
+      res.status(500).send(err);
+    }
   }
 };

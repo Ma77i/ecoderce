@@ -18,8 +18,11 @@ module.exports = {
       products = await productModel.getModel("product").find(find);
     }
 
-    logger.info(`Productos listados: ${products.length}`);
-    return res.send(products);
+    logger.info(`Products listed: ${products.length}`);
+    return res.status(200).json({
+      message: "Products successfully retrieved",
+      products: products
+    });
   },
 
   // obtener producto por id
@@ -27,8 +30,11 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      const getId = await productModel.getModel("product").findOne({ _id: id });
-      res.status(200).send(getId);
+      const product = await productModel.getModel("product").findOne({ _id: id });
+      res.status(200).json({
+        message: "Product successfully retrieved",
+        product: product
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -41,8 +47,11 @@ module.exports = {
 
     try {
       const product = await productModel.getModel("product").create(body);
-      logger.info(`Producto creado: ${product.title}`);
-      res.status(201).send(product);
+      logger.info(`Product successfully created: ${product.title}`);
+      res.status(201).json({
+        message: "Product successfully created",
+        product: product
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -56,7 +65,11 @@ module.exports = {
 
     try {
       const update = await productModel.getModel("product").updateOne({ _id: id }, { $set: body });
-      res.status(201).send(update);
+      const product = await productModel.getModel("product").findById({_id: id});
+      res.status(201).json({
+        message: "Product successfully updated",
+        product: product
+      });
     } catch (error) {
       logger.error(error);
       res.status(500).send(error);
@@ -70,7 +83,10 @@ module.exports = {
     try {
       await productModel.getModel("product").deleteOne({ _id: id });
       const products = await productModel.getModel("product").find();
-      res.status(200).json(products);
+      res.status(200).json({
+        message: "Product successfully deleted",
+        products: products
+      });
     } catch (err) {
       logger.error(`No id find${err}`);
       res.status(500).json({
@@ -83,6 +99,10 @@ module.exports = {
   // borrar todos los productos
   deleteAll: async (req, res) => {
     await productModel.getModel("product").deleteMany({});
-    res.status(200).send("Se eliminaron todos los objetos");
+    const products = await productModel.getModel("product").find();
+    res.status(200).json({
+      message: "Products successfully deleted",
+      products: products
+    })
   }
 };

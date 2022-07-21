@@ -21,8 +21,9 @@ const ItemDetailContainer = () => {
 
       axios
         .get(`${API_URL}/${param.id}`)
-        .then(({ data }) => {
-          setItem(data);
+        .then(({data}) => {
+          console.log(data.message);
+          setItem(data.product);
           setIsLoading(false);
         })
         .catch((error) => {

@@ -13,6 +13,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -37,7 +39,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const API_CART = "http://localhost:8080/api/cart";
-// const CURRENT_CART = "http://localhost:8080/api/cart/currentCart";
 
 const Cart = () => {
   //  const { cart } = useContext(CartContext);
@@ -54,28 +55,22 @@ const Cart = () => {
           Authorization: `Bearer ${auth.token}`
         }
       })
-      .then((res) => {
-        setCart(res.data);
+      .then(({data}) => {
+        console.log(data.message);
+        setCart(data.cart);
         setIsLoading(false);
       })
       .catch((err) => {
         console.log("Error getting cart data", err);
       });
-  }, [user, auth]);
-
-  // const handleRemoveFromCar = () => {
-  //   console.log("removing from cart");
-  // }
+    }, [user, auth ]);
 
   const handleRemoveFromCart = (itemId) => {
-    console.log(`${API_CART}/${cart.cartId}/products/${itemId}`);
     axios
-      .delete(`${API_CART}/${cart.cartId}/products/${itemId}`)
-      .then((res) => {
-        console.log("Product removed from cart", res);
-        // const removeState = cart.products.filter(i=>i._id !== itemId)
-        setCart(res.data);
-        console.log("cart", cart);
+      .delete(`${API_CART}/${cart._id}/products/${itemId}`)
+      .then(({data}) => {
+        console.log(data.message);
+        setCart(data.cart);
       })
       .catch((err) => {
         console.log("Error removing product from cart", err);
@@ -84,17 +79,16 @@ const Cart = () => {
 
   const handleEmptyCart = () => {
     axios
-      .get(`${API_CART}/emptyCart/${cart.cartId}`)
-      .then((res) => {
-        console.log("Cart emptied", res);
-        setCart(res.data);
+      .get(`${API_CART}/emptyCart/${cart._id}`)
+      .then(({data}) => {
+        console.log(data.message);
+        setCart(data.cart);
+        
       })
       .catch((err) => {
         console.log("Error emptying cart", err);
       });
   };
-
-  // React.useEffect(handleEmptyCart, [cart]);
 
   if (isLoading) {
     return <Loader />;
@@ -132,21 +126,16 @@ const Cart = () => {
                     <StyledTableCell align="right">$ {i.price}</StyledTableCell>
                     <StyledTableCell align="right">{i.quantity}</StyledTableCell>
                     <StyledTableCell align="right">
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        align="right"
-                        onClick={() => handleRemoveFromCart(i._id)}
-                      >
-                        Rem
-                      </Button>
+                    <IconButton edge="center" aria-label="delete" onClick={() => handleRemoveFromCart(i._id)} >
+                      <DeleteIcon />
+                    </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
             <Typography variant="h4" component="div" align="right" gutterBottom>
-              Total: $ {cart.total}
+              Total: $ { cart.products.length > 0 ? cart.products.reduce((tot, p) => tot + p.price * p.quantity, 0) : 0}
             </Typography>
             <Button
               variant="contained"

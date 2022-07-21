@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -33,13 +33,16 @@ const AddProduct = () => {
 
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post(API_PRODUCTS, product)
-      .then(() => {
+      .then(({res}) => {
+        console.log(res.message);
       })
       .catch(err => console.log(err));
-    <Navigate to='/admin/products' />;
+    navigate('/admin/products');
     }
 
   const handleChange = (e) => {

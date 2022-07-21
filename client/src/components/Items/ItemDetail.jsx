@@ -5,7 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
 
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
@@ -22,15 +21,16 @@ const ItemDetail = ({ item }) => {
       headers: {
         Authorization: `Bearer ${auth.token}`
       }
-    }).then((res) => {
-      setCart(res.data);
+    }).then(({data}) => {
+      console.log(data.message);
+      setCart(data);
     });
   }, [user._id, auth.token]);
 
   const handleAddToCart = () => {
     axios.post(`${API_CART}/${cart.cartId}/products/${item._id}`)
-      .then((res) => {
-        console.log("Product added to cart", res.data);
+      .then(({data}) => {
+        console.log(data.message);
       })
       .catch((err) => {
         console.log("Error adding product to cart", err);
@@ -56,7 +56,7 @@ const ItemDetail = ({ item }) => {
         </CardContent>
         <CardActions>
           <Button size="small" onClick={handleAddToCart}>
-            <Link to="/cart">Add to Cart</Link>
+            Add to Cart
           </Button>
         </CardActions>
       </Card>

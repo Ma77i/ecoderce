@@ -11,10 +11,13 @@ module.exports = (req, res, next) => {
       message: "Unauthorized",
     });
   }
-  
+  console.log("Token successfully verified");
   return next();
 
- 
+  
+  
+
+
   // if (verifyToken(tokenAuth)) {
   //   next();
   // } else if (verifyToken(tokenCook)) {
