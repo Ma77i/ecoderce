@@ -8,13 +8,13 @@ const ItemList = ({ items }) => {
     <>
       <Grid
         container
-        spacing={2}
+        spacing={1}
         direction="row"
         justify="center"
         alignItems="center"
       >
         {items.map((item) => (
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <Item key={item._id} item={item} />
           </Grid>
         ))}

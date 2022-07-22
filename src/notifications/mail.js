@@ -17,27 +17,39 @@ class MailSender {
     });
   }
 
-  async send(template, email, firstName) {
+  async orderSaved(template, email, firstName) {
     const mailOptions = {
       from: "<no-reply@ecoderce.com>",
       to: email,
-      subject: `Nuevo pedido de ${firstName}, ${email}`,
-      text: "Pedido realizado con exito",
+      subject: `Thanks for your order ${firstName}, ${email}`,
+      text: "Order successfully received",
       html: template
     };
     const response = await this.transporter.sendMail(mailOptions);
-    logger.info(`Mail enviado, id: ${response.messageId}`);
+    logger.info(`Order successfully received: ${response.messageId}`);
+  }
+
+  async OrderSent(template, email, firstName) {
+    const mailOptions = {
+      from: "<no-reply@ecoderce.com>",
+      to: email,
+      subject: `Order sent to ${firstName}, ${email}`,
+      text: "Order successfully sent",
+      html: template
+    };
+    const response = await this.transporter.sendMail(mailOptions);
+    logger.info(`Mail sent ${response.envelope}`);
   }
 
   async aNewUserMail(template) {
     const mailOptions = {
       to: config.mail.GMAIL_ADDRESS,
-      subject: `Nuevo usuario registrado`,
-      text: `Se ha registrado un nuevo usuario con exito`,
+      subject: `New user registered`,
+      text: `A new user has registered to Ecoderce`,
       html: template
     };
     const response = await this.transporter.sendMail(mailOptions);
-    logger.info(response.envelope);
+    logger.info("New user registered", response.envelope);
   }
 }
 

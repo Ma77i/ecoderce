@@ -12,8 +12,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -55,7 +54,7 @@ const Cart = () => {
           Authorization: `Bearer ${auth.token}`
         }
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log(data.message);
         setCart(data.cart);
         setIsLoading(false);
@@ -63,12 +62,12 @@ const Cart = () => {
       .catch((err) => {
         console.log("Error getting cart data", err);
       });
-    }, [user, auth ]);
+  }, [user, auth]);
 
   const handleRemoveFromCart = (itemId) => {
     axios
       .delete(`${API_CART}/${cart._id}/products/${itemId}`)
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log(data.message);
         setCart(data.cart);
       })
@@ -80,10 +79,9 @@ const Cart = () => {
   const handleEmptyCart = () => {
     axios
       .get(`${API_CART}/emptyCart/${cart._id}`)
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log(data.message);
         setCart(data.cart);
-        
       })
       .catch((err) => {
         console.log("Error emptying cart", err);
@@ -96,7 +94,7 @@ const Cart = () => {
 
   if (!isLoading) {
     return (
-      <TableContainer component={Paper} m={2}>
+      <TableContainer component="div" m={5} align="center">
         <Typography variant="h1" component="div" align="center" gutterBottom>
           CART
         </Typography>
@@ -106,7 +104,7 @@ const Cart = () => {
           </Typography>
         ) : (
           <>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <Table sx={{ maxWidth: 1000, m: 1, align: 'center' }} aria-label="customized-table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>&nbsp;</StyledTableCell>
@@ -126,17 +124,25 @@ const Cart = () => {
                     <StyledTableCell align="right">$ {i.price}</StyledTableCell>
                     <StyledTableCell align="right">{i.quantity}</StyledTableCell>
                     <StyledTableCell align="right">
-                    <IconButton edge="center" aria-label="delete" onClick={() => handleRemoveFromCart(i._id)} >
-                      <DeleteIcon />
-                    </IconButton>
+                      <IconButton
+                        edge="center"
+                        aria-label="delete"
+                        onClick={() => handleRemoveFromCart(i._id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
+                <TableRow align="right">
+                  <TableCell colSpan={2}>Total</TableCell>
+                  <TableCell align="right">$ {cart.products.length > 0
+                    ? cart.products.reduce((tot, p) => tot + p.price * p.quantity, 0)
+                    : 0}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
-            <Typography variant="h4" component="div" align="right" gutterBottom>
-              Total: $ { cart.products.length > 0 ? cart.products.reduce((tot, p) => tot + p.price * p.quantity, 0) : 0}
-            </Typography>
             <Button
               variant="contained"
               color="primary"

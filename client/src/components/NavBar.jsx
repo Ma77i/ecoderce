@@ -16,17 +16,33 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import { Badge } from "@mui/material";
 
+// import axios from "axios"
+// const API_CART = "http://localhost:8080/api/cart"
 
-
-const pages = ["Store", "Cart" ];
+// const pages = ["Store", "Cart"];
 const settings = ["Account", "Admin", "Logout"];
+
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  // const [ items, setItems ] = React.useState([]);
 
-  const { auth, handleLogout } = useContext(AuthContext);
+  const { user, auth, handleLogout } = useContext(AuthContext);
+
+  // React.useEffect(() => {
+  //   if (user) {
+  //     console.log(user)
+  //     axios.get(`${API_CART}/currentCart/${user._id}`, {
+  //       headers: { Authorization: `Bearer ${auth.token}` }
+  //     }).then(({ data }) => {
+  //       console.log(data.message);
+  //       setItems(data.cart.products);
+  //     }).catch(err => { console.log(err); });
+  //   } 
+  // }, [auth, user ])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -47,9 +63,9 @@ const NavBar = () => {
     palette: {
       mode: "dark",
       primary: {
-        main: "#1976d2",
-      },
-    },
+        main: "#1976d2"
+      }
+    }
   });
 
   return (
@@ -59,21 +75,21 @@ const NavBar = () => {
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Link className="link" to="/">
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              ECODERCE
-            </Typography>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none"
+                }}
+              >
+                ECODERCE
+              </Typography>
             </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -92,33 +108,38 @@ const NavBar = () => {
                 anchorEl={anchorElNav}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "left",
+                  horizontal: "left"
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "left",
+                  horizontal: "left"
                 }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  display: { xs: "block", md: "none" }
                 }}
               >
-                { 
-                  pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Link
-                          style={{ textDecoration: "none", color: "white" }}
-                          to={`/${page.toLowerCase()}`}
-                          ><Typography textAlign="center">
-                        
-                          {page}
-                      </Typography>
-                        </Link>
-                    </MenuItem>
-                  ))
-                }
+                {/* {pages.map((page) => ( */}
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Link
+                      style={{ textDecoration: "none", color: "white" }}
+                      to={`/store`}
+                    >
+                      <Typography textAlign="center">STORE</Typography>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                  <Badge badgeContent={1} color="error">
+                    <Link to={`cart`}
+                      style={{ textDecoration: "none", color: "white" }}
+                    >
+                        <Typography textAlign="center">CART</Typography>
+                    </Link>
+                      </Badge>
+                </MenuItem>
+                {/* ))} */}
               </Menu>
             </Box>
 
@@ -137,73 +158,79 @@ const NavBar = () => {
                 fontWeight: 700,
                 letterSpacing: ".3rem",
                 color: "inherit",
-                textDecoration: "none",
+                textDecoration: "none"
               }}
             >
-              UNDER EMERGENTE mobile
+              ECODERCE mobile
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {auth && <Button onClick={handleLogout}>Logout</Button>}
 
-
-
-              {auth && <Button onClick={handleLogout}>Logout</Button> }
-              
-
-              
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+              {/* {pages.map((page) => ( */}
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  to={`/store`}
                 >
-                  <Link
-                    style={{ textDecoration: "none", color: "white" }}
-                    to={`/${page.toLowerCase()}`}
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
                   >
-                    {page}
-                  </Link>
-                </Button>
-              ))}
+                    store
+                  </Button>
+                </Link>
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  to={`/cart`}
+                >
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                  <Badge badgeContent={ 0 } color="error">
+                    cart
+                    </Badge>
+                  </Button>
+                </Link>
+              {/* ))} */}
             </Box>
 
             {auth && (
-            <Box sx={{ flexGrow: 0 }}>
-              
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="picture" src={auth.user.avatar} />
-                </IconButton>
-              </Tooltip>
-              
-               <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="picture" src={auth.user.avatar} />
+                  </IconButton>
+                </Tooltip>
 
-                    <Typography textAlign="center">
-                      <Link 
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Link
                         style={{ textDecoration: "none", color: "white" }}
-                        to={`/${setting.toLowerCase()}`}>{setting}</Link>
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-              )}
+                        to={`/${setting.toLowerCase()}`}
+                      >
+                        <Typography textAlign="center">{setting}</Typography>
+                      </Link>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            )}
           </Toolbar>
         </Container>
       </AppBar>

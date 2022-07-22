@@ -7,34 +7,32 @@ const cartModel = require("../models/cartModel");
 
 // twilio
 const twilioSender = require("../notifications/twilio");
-
+const mailSender = require("../notifications/mail");
 // logger
 const logger = require("../log/winston");
 
 module.exports = {
-
-  getAll: async (req, res) => {
+  getAllOrders: async (req, res) => {
     try {
-      const orders = await orderModel.find().lean();
+      const orders = await orderModel.find();
       res.status(200).json({
         message: "Orders successfully retrieved",
         orders: orders
       });
     } catch (err) {
-      console.log(err);
       logger.error(err);
-      res.status(500).json({ message: "Error" });
+      res.status(500).json({
+        message: "Error",
+        error: err
+      });
     }
   },
 
-  save: async (req, res) => {
-    
+  saveOrder: async (req, res) => {
     const { id } = req.params;
-    const context = { sent: false };
-    
+
     try {
       const user = await userModel.findById(id);
-
       const cart = await cartModel.findOne({ user: id });
       const total = cart.products.reduce((tot, p) => tot + p.price * p.quantity, 0);
       const order = await orderModel.create({
@@ -42,14 +40,23 @@ module.exports = {
         cart: cart,
         total: total
       });
+
+      const elements = cart.products.map((p) => `<li>${p.title}</li>`);
+      const template = `
+        <h1> Your order is being processed, we will notify you when it is shipped: </p>
+        <ul>
+          <li>${elements.join(" ")}</li>
+        </ul>
+        <p>Total: ${total}</p>
+      `;
+      mailSender.orderSaved(template, user.email, user.firstName);
+      twilioSender.sendSms(user.phone, user.firstName, user.email);
+
       cart.products = [];
       await cart.save();
-
-      context.sent = true;
       logger.info("Order successfully created");
       res.status(200).json({
         message: "Order successfully created",
-        context: context,
         order: order
       });
     } catch (error) {
@@ -63,27 +70,24 @@ module.exports = {
 
   updateSendOrder: async (req, res) => {
     const { id } = req.params;
-    // const { firstName, email } = req.user;
-
-    if (!id) {
-      return res.sendStatus(404);
-    }
 
     try {
-      const update = await orderModel.updateOne({ _id: id }, { send: true });
-      const orders = await orderModel.findById(id);
-      console.log(order);
-      await order.save();
-      
-      // twilioSender.sendSms(firstName, email);
-      twilioSender.sendSms("firstName", "email");
+      await orderModel.updateOne({ _id: id }, { $set: { send: true } });
+      const orders = await orderModel.find();
+      const user = await userModel.findById({ _id: orders[0].user });
+
       logger.info("Order successfully updated");
-      res.sendStatus(202).json({
+
+      const template = `<h1> Congratulations Your order has been sent to your address</h1>`;
+      mailSender.OrderSent(template, user.email, user.firstName);
+      twilioSender.sendWhatsapp(user.phone, user.firstName, user.email);
+
+      res.status(202).json({
         message: "Order successfully updated",
-        order: orders
+        orders: orders
       });
     } catch (err) {
-      console.log(err);
+      logger.error("The order was not updated", err);
       res.status(500).send(err);
     }
   },
@@ -96,97 +100,39 @@ module.exports = {
     }
 
     try {
-      const order = await orderModel.findById({ _id: id });
-      await order.remove();
-      res.sendStatus(202);
+      await orderModel.deleteOne({ _id: id });
+      const orders = await orderModel.find();
+      logger.info("Order successfully deleted");
+      res.status(202).json({
+        message: "Order successfully deleted",
+        orders: orders
+      });
     } catch (err) {
-      console.log(err);
+      logger.error("The order was not deleted", err);
       res.status(500).send(err);
     }
-
   },
-  
+
   deleteAllOrders: async (req, res) => {
     await orderModel.deleteMany();
-    logger.info("Ordenes eliminadas con exito");
-    res.status(200).redirect("/");
+    const orders = await orderModel.find();
+    logger.info("Orders successfully deleted");
+    res.status(200).json({
+      message: "Orders successfully deleted",
+      orders: orders
+    });
   },
 
   // obtengo la order mediante id de usuario
   getByUser: async (req, res) => {
-    // const userId = req.user;
     const { id } = req.params;
 
-    const order = await orderModel.findOne({ userId: userId._id }).lean();
+    const order = await orderModel.findOne({ user: id }).lean();
 
-    if (!order) {
-      return {};
-    }
-
-    logger.info(`Orden del usuario con id: ${order.userId}`);
-    res.status(200).send(order);
+    logger.info(`Order successfully retrieved: ${order}`);
+    res.status(200).json({
+      message: "Order successfully retrieved",
+      order: order
+    });
   }
-}
-
-
-
-
-
-// // obtengo todas las ordenes de pedido
-// exports.getAll = async (req, res) => {
-//   const data = await orderModel.find().lean();
-//   logger.info(`Ordenes: ${data.length}`);
-//   res.status(200).send(data);
-// };
-
-// // guardo las ordenes en la db
-// exports.save = async (req, res) => {
-//   const order = await orderModel.create();
-//   logger.info(`Orden:\n${order}`);
-//   res.status(201).send(order);
-// };
-
-// // elimino todas las ordenes
-// exports.deleteAllOrders = async (req, res) => {
-//   await orderModel.deleteMany();
-//   logger.info("Ordenes eliminadas con exito");
-//   res.status(200).redirect("/");
-// };
- 
-// // obtengo la order mediante id de usuario
-// exports.getByUser = async (req, res) => {
-//   const userId = req.user;
-
-//   const order = await orderModel.findOne({ userId: userId._id }).lean();
-
-//   if (!order) {
-//     return {};
-//   }
-
-//   logger.info(`Orden del usuario con id: ${order.userId}`);
-//   res.status(200).send(order);
-// };
-
-
-
-// // update sent order
-// exports.updateSendOrder = async (req, res) => {
-//   const { id } = req.params;
-//   const { firstName, email } = req.user;
-
-//   if (!id) {
-//     return res.sendStatus(404);
-//   }
-
-//   try {
-//     const order = await orderModel.findById({ _id: id });
-//     order.send = true;
-//     await order.save();
-
-//     twilioSender.sendSms(firstName, email);
-//     res.sendStatus(202);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send(err);
-//   }
-// };
+};

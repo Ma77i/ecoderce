@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
@@ -38,12 +39,19 @@ const ItemDetail = ({ item }) => {
   }
 
   return (
-
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center', 
+        flexDirection: 'column',
+        alignItems: 'center',
+        margin: 10,
+      }}>
       <Card sx={{ maxWidth: 345 }} >
         <CardMedia
           component="img"
           alt="green iguana"
-          height="140"
+          height="400"
           image={item.thumbnail}
         />
         <CardContent>
@@ -60,6 +68,7 @@ const ItemDetail = ({ item }) => {
           </Button>
         </CardActions>
       </Card>
+    </Box>
   );
 };
 export default ItemDetail;

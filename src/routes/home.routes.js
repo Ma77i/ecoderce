@@ -159,7 +159,8 @@ router.get("/order", auth, async (req, res) => {
   try {
     await orderModel.create({
       user: user._id.toString(),
-      total
+      cart: cart._id,
+      total: total
     });
     cart.products = [];
     await cart.save();

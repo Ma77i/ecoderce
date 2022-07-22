@@ -10,20 +10,15 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 
 import axios from 'axios';
+import { Button } from '@mui/material';
 const API_ORDERS = "http://localhost:8080/api/orders";
 
 
 
-
-// function generate(element) {
-//   return [items].map((value) =>
-//   React.cloneElement(element, {
-//     key: value,
-//   }),
-//   );
-// }
 
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -45,8 +40,17 @@ const OrderAdmin = () => {
     }, []);
 
 
-    const handleDelete = (id) => {
-      axios.delete(`${API_ORDERS}${id}`)
+    const deleteOrder = (id) => {
+      axios.delete(`${API_ORDERS}/${id}`)
+        .then(({data}) => {
+            console.log(data.message);
+            setOrders(data.orders);
+          }
+        ).catch(err => { console.log(err); });
+    }
+
+    const deleteAllOrders = () => {
+      axios.delete(API_ORDERS)
         .then(({data}) => {
             console.log(data.message);
             setOrders(data.orders);
@@ -55,7 +59,6 @@ const OrderAdmin = () => {
     }
 
     const sendOrder = (id) => {
-      console.log("send", id);
       axios.put(`${API_ORDERS}/${id}`)
         .then(({data}) => {
             console.log(data.message);
@@ -75,7 +78,7 @@ const OrderAdmin = () => {
         justifyContent: 'center', 
         flexDirection: 'column',
         alignItems: 'center',
-        maxWidth: '50%',
+        maxWidth: '60%',
         margin: 'auto',
       }}>
       <Grid container spacing={2}>
@@ -88,9 +91,16 @@ const OrderAdmin = () => {
               {orders.map((i)=> (
                 <ListItem key={i._id}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete" onClick={() => sendOrder(i._id)}>
-                      <DeleteIcon />
-                    </IconButton>
+                    <>
+                      {i.send === false && 
+                      <IconButton edge="end" aria-label="checkout" onClick={() => sendOrder(i._id)}>
+                        <CheckCircleIcon />
+                      </IconButton>
+                    }
+                      <IconButton edge="end" aria-label="delete" onClick={() => deleteOrder(i._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </>
                   }
                 >
                   <ListItemAvatar>
@@ -105,6 +115,9 @@ const OrderAdmin = () => {
             </List>
           </Demo>
         </Grid>
+        <Button variant="contained" color="error" onClick={deleteAllOrders}>
+          <DeleteIcon />
+        </Button>
       </Grid>
     </Box>
   );

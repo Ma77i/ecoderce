@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import Typography from "@mui/material/Typography";
 import ItemList from "./ItemList";
 import Loader from "../utils/Loader";
 import axios from "axios";
@@ -32,7 +33,9 @@ const ItemListContainer = () => {
   if (!isLoading) {
     return (
       <>
-        <h2>Bienvenido {user.firstName}</h2>
+        <Typography sx={{ m: 2 }} variant="h1" component="div" align="center" gutterBottom>
+          Bienvenido {user.firstName}
+        </Typography>
         <ItemList items={items} isLoading={isLoading}/>
       </>
     );
