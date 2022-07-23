@@ -29,6 +29,8 @@ export const AuthProvider = ({ children }) => {
     confirmPassword: ''
   })
 
+  console.log("AUTH", auth)
+
   const navigate = useNavigate();
 
   const handleSubmitLogin = (e) => {
@@ -46,7 +48,7 @@ export const AuthProvider = ({ children }) => {
       })
   };
 
-  const handleChange = (e) => {
+  const handleChangeLogin = (e) => {
     e.preventDefault();
     setLoginCredentials({
       ...loginCredentials,
@@ -54,14 +56,23 @@ export const AuthProvider = ({ children }) => {
     })
   }
 
-  const handleSubmitRegister = (e) => {
+  const handleChangeRegister = (e) => {
     e.preventDefault();
+    setRegisterCredentials({
+      ...registerCredentials,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmitRegister = (e) => {
+    console.log("antes")
+    e.preventDefault();
+    console.log("despues")
     axios.post(API_REGISTER, registerCredentials)
       .then((res) => {
         const token = res.data;
         setAuth(token)
         setUser(res.data.user)
-        localStorage.setItem('user', res.data)
         navigate('/store')
       })
       .catch((err) => {
@@ -78,6 +89,7 @@ export const AuthProvider = ({ children }) => {
   const values = {
       auth: auth,
       user: user,
+      setUser: setUser,
       setAuth: setAuth,
       loginCredentials: loginCredentials,
       setLoginCredentials: setLoginCredentials,
@@ -85,7 +97,8 @@ export const AuthProvider = ({ children }) => {
       setRegisterCredentials: setRegisterCredentials,
       handleSubmitLogin: handleSubmitLogin,
       habdleSubmitRegister: handleSubmitRegister,
-      handleChange: handleChange,
+      handleChangeLogin: handleChangeLogin,
+      handleChangeRegister: handleChangeRegister,
       handleLogout: handleLogout,
   }
 

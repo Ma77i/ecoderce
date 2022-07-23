@@ -41,7 +41,7 @@ const theme = createTheme({
 });
 
 const SignIn = () => {
-  const { loginCredentials, handleSubmitLogin, handleChange } = React.useContext(AuthContext);
+  const { loginCredentials, handleSubmitLogin, handleChangeLogin } = React.useContext(AuthContext);
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,7 +72,7 @@ const SignIn = () => {
               autoComplete="email"
               autoFocus
               value={loginCredentials.email}
-              onChange={handleChange}
+              onChange={handleChangeLogin}
             />
             <TextField
               margin="normal"
@@ -84,7 +84,7 @@ const SignIn = () => {
               id="password"
               autoComplete="current-password"
               value={loginCredentials.password}
-              onChange={handleChange}
+              onChange={handleChangeLogin}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

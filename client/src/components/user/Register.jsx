@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { useContext} from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -15,6 +14,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+const API_REGISTER = 'http://localhost:8080/api/sign/register';
 
 const Copyright = (props) => {
   return (
@@ -41,7 +43,25 @@ const theme = createTheme({
 });
 
 const SignUp = () => {
-  const { handleSubmitRegister, registerCredentials, setRegisterCredentials } = useContext(AuthContext);
+
+  // const { registerCredentials, handleSubmitRegister, handleChangeRegister } = React.useContext(AuthContext);
+  const navigate = useNavigate();
+  const { registerCredentials, handleChangeRegister, setAuth, setUser } = React.useContext(AuthContext);
+
+
+  const handleSubmitRegister = (e) => {
+    e.preventDefault();
+    axios.post(API_REGISTER, registerCredentials)
+      .then((res) => {
+        const token = res.data;
+        setAuth(token)
+        setUser(res.data.user)
+        navigate('/store')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,7 +92,7 @@ const SignUp = () => {
                   id="firstName"
                   label="First Name"
                   value={registerCredentials.firstName}
-                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, firstName: e.target.value })}}
+                  onChange={handleChangeRegister} 
                   autoFocus
                 />
               </Grid>
@@ -84,7 +104,7 @@ const SignUp = () => {
                   label="Last Name"
                   name="lastName"
                   value={registerCredentials.lastName}
-                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, lastName: e.target.value })}}
+                  onChange={handleChangeRegister}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -96,7 +116,7 @@ const SignUp = () => {
                   label="User Name"
                   name="userName"
                   value={registerCredentials.userName}
-                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, userName: e.target.value })}}
+                  onChange={handleChangeRegister}
                   autoComplete="user-name"
                 />
               </Grid>
@@ -105,10 +125,10 @@ const SignUp = () => {
                   required
                   fullWidth
                   id="phone"
-                  label="Phone "
+                  label="Phone"
                   name="phone"
                   value={registerCredentials.phone}
-                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, phone: e.target.value })}}
+                  onChange={handleChangeRegister}
                   autoComplete="phone"
                 />
               </Grid>
@@ -120,7 +140,7 @@ const SignUp = () => {
                   label="Email Address"
                   name="email"
                   value={registerCredentials.email}
-                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, email: e.target.value })}}
+                  onChange={handleChangeRegister}
                   autoComplete="email"
                 />
               </Grid>
@@ -133,7 +153,7 @@ const SignUp = () => {
                   type="password"
                   id="password"
                   value={registerCredentials.password}
-                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, password: e.target.value })}}
+                  onChange={handleChangeRegister}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -146,16 +166,16 @@ const SignUp = () => {
                   type="password"
                   id="confirmPassword"
                   value={registerCredentials.confirmPassword}
-                  onChange={(e)=>{setRegisterCredentials({ ...registerCredentials, confirmPassword: e.target.value })}}
+                  onChange={handleChangeRegister}
                   autoComplete="new-confirm-password"
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -181,3 +201,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

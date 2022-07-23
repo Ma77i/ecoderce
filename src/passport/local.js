@@ -57,13 +57,10 @@ module.exports = (passport) => {
         adress
       });
 
-      done(null, {
-        ...user,
-        id: user._id
-      });
+      done(null, user);
 
-      const cart = await cartModel.create({ user: user._id.toString() });
-      logger.info(`CARRO CREADO CON EXITO PARA EL USUARIO ${user.userName}`);
+      await cartModel.create({ user: user._id.toString() });
+      logger.info(`Cart successfully created for ${user.email}`);
 
       const template = `
         <div>
@@ -76,7 +73,7 @@ module.exports = (passport) => {
         </div>
       `;
       await mailSender.aNewUserMail(template);
-      logger.info("se registro un nuevo usuario");
+      logger.info("New user registered");
     } catch (err) {
       logger.error(err);
       done(err);

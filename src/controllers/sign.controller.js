@@ -1,13 +1,18 @@
 const { generateToken } = require("../auth");
 
+const logger = require("../log");
+
 module.exports = {
   
   login: (req, res) => {
+    console.log(req.user)
 
     try {
       const token = generateToken(req.user);
       res.clearCookie("token");
       res.cookie("token", token);
+
+      logger.info(`User ${req.user.userName} logged in`);
       res.status(200).json({ 
         message: "Login successful",
         user: req.user, 
@@ -22,11 +27,17 @@ module.exports = {
   },
 
   register: (req, res) => {
+    console.log(req.user)
     try {
       const token = generateToken(req.user);
         res.clearCookie("token");
         res.cookie("token", token);
-        res.status(200).send({ user: req.user, token: token });
+
+      logger.info(`User ${req.user.userName} registered`);
+        res.status(200).json({ 
+          message: "Register successful",
+          user: req.user, 
+          token: token });
       } catch (error) {
         return res.status(500).json({
           message: "Something is not right",
