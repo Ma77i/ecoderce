@@ -28,6 +28,7 @@ module.exports = (passport) => {
       if (!isPasswordValid) {
         return done(null, false, { message: "Incorrect password" });
       }
+      logger.info("User successfully authenticated");
       done(null, user);
     } catch (err) {
       done(err);
