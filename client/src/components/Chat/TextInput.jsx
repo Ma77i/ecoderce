@@ -17,7 +17,7 @@ export const TextInput = () => {
             noValidate autoComplete="off">
             <TextField
                 id="standard-text"
-                label="メッセージを入力"
+                label="Text here"
                 sx={{
                     width: "100%"
                 }}

@@ -8,23 +8,30 @@ const chatModel = require("../models/chatModel");
 const logger = require("../log/winston");
 
 module.exports = {
-  // obtener chats
-  get: async (req, res) => {
+
+  getAll: async (req, res) => {
     const chat = await chatModel.find();
-    res.send(chat);
+    logger.info("Chats successfully retrieved from database")
+    res.status(200).json({
+      message: "Chats successfully retrieved from database",
+      chat: chat
+    });
   },
 
   // obtener chat por id
   getById: async (req, res) => {
     const { id } = req.params;
-    console.log("POSTMAN: ", id);
+   
     try {
-      
-      const byId = await chatModel.getById(id);
-      res.status(200).send(byId);
+      const chat = await chatModel.findById(id);
+      logger.info("Chat successfully retrieved from database")
+      res.status(200).json({
+        message: "Chat successfully retrieved from database",
+        chat: chat
+      });
     } catch (error) {
+      logger.error("Chat failed to retrieve from database", error);
       res.status(500);
-      console.log(error);
     }
   },
 
@@ -32,11 +39,14 @@ module.exports = {
   post: async (req, res) => {
     const { body } = req;
     try {
-      const message = await chatModel.create(body);
-      logger.info("Mensaje enviado");
-      res.status(201).send(message);
+      const text = await chatModel.create(body);
+      logger.info("Message successfully created in database");
+      res.status(201).json({
+        message: "Message successfully created in database",
+        text: text
+      })
     } catch (error) {
-      console.log(error);
+      logger.error("Message failed to be created", error);
       res.status(500);
     }
   },
@@ -49,10 +59,15 @@ module.exports = {
   deleteById: async (req, res) => {
     const { id } = req.params;
     try {
-      const delOne = chatModel.deleteById(id);
-      res.status(200).send(delOne);
+      await chatModel.deleteOne({_id: id});
+      const chats = await chatModel.find();
+      logger.info("Message successfully deleted from database");
+      res.status(200).json({
+        message: "Message successfully deleted from database",
+        chats: chats
+      })
     } catch (error) {
-      console.log(error);
+      logger.error("Message failed to be deleted", error);
       res.status(500);
     }
   },
@@ -60,10 +75,14 @@ module.exports = {
   // borrar todos los mensajes
   deleteAll: async (req, res) => {
     try {
-      const del = await chatModel.deleteAll();
-      res.status(200).send(del);
+      await chatModel.deleteMany();
+      const chats = await chatModel.find();
+      res.status(200).json({
+        message: "All messages successfully deleted from database",
+        chats: chats
+      })
     } catch (error) {
-      console.log(error);
+      logger.error("All messages failed to be deleted", error);
       res.status(500).send(error);
     }
   },

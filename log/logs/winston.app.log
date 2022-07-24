@@ -3294,3 +3294,71 @@
     2022-07-23T20:12:36.071Z 
     warn: 
     la ruta no existe
+
+    2022-07-24T17:51:43.878Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:47.546Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:48.644Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:48.881Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:49.898Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:51.481Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:52.099Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:52.580Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:53.252Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:53.434Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:53.653Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T17:51:54.082Z 
+    error: 
+    The order was not updated Cannot read properties of null (reading 'email')
+
+    2022-07-24T18:24:03.242Z 
+    warn: 
+    la ruta no existe
+
+    2022-07-24T18:26:39.768Z 
+    warn: 
+    la ruta no existe
+
+    2022-07-24T19:45:34.653Z 
+    warn: 
+    la ruta no existe
+
+    2022-07-24T19:55:03.372Z 
+    error: 
+    Message failed to be deleted Parameter "filter" to deleteOne() must be an object, got 62999919528555eaa5a3e244
+
+    2022-07-24T19:56:11.265Z 
+    error: 
+    Message failed to be deleted Parameter "filter" to deleteOne() must be an object, got 62999919528555eaa5a3e244

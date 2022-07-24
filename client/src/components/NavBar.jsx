@@ -30,7 +30,7 @@ const NavBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   // const [ items, setItems ] = React.useState([]);
 
-  const { user, auth, handleLogout } = useContext(AuthContext);
+  const { auth, handleLogout } = useContext(AuthContext);
 
   // React.useEffect(() => {
   //   if (user) {
@@ -164,7 +164,14 @@ const NavBar = () => {
               ECODERCE mobile
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {auth && <Button onClick={handleLogout}>Logout</Button>}
+              {auth && (
+                <>
+                  <Button onClick={handleLogout}>Logout</Button>
+                  <Link style={{ textDecoration: "none", color: "white" }} to={`/chat`}>
+                    <Button sx={{ my: 2, color: "white", display: "block" }}>Chat</Button>
+                  </Link>
+                </>
+              )}
 
               {/* {pages.map((page) => ( */}
                 <Link

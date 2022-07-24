@@ -4,10 +4,34 @@ import { TextInput } from "./TextInput.jsx";
 import { MessageLeft, MessageRight } from "./Message";
 import { Box } from "@mui/material";
 
+import { AuthContext } from "../../Context/AuthContext";
+import axios from 'axios';
+const API_CHATS = "http://localhost:8080/api/chat"
+
 
 
 
 const Chat = () => {
+  const { user } = React.useContext(AuthContext);
+  const [messages, setMessages] = React.useState([]);
+  
+  console.log("User", user);
+
+  React.useEffect(() => {
+    axios.get(`${API_CHATS}`)
+      .then(({data}) => {
+        console.log(data.message);
+        const text = data.chat.map(m => console.log(m.author.mail === user.email) );
+        console.log("TEXT: ", text);
+        // setMessages(text);
+        setMessages(data.chat);
+      })
+      .catch((err) => console.log("Error getting chats", err));
+  }, [user]);
+
+  console.log(messages);
+
+
   return (
     <Box sx={{
       width: "100vw",
@@ -25,7 +49,7 @@ const Chat = () => {
         alignItems: "center",
         flexDirection: "column",
         position: "relative"
-      }} zDepth={2}>
+      }} >
         <Paper 
           sx={{
             width: "calc( 100% - 20px )",
@@ -35,14 +59,14 @@ const Chat = () => {
           }}
           id="style-1">
           <MessageLeft
-            message="あめんぼあかいなあいうえお"
+            message="Hola"
             timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            photoURL="www"
             displayName=""
             avatarDisp={true}
           />
           <MessageLeft
-            message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
+            message="alo"
             timestamp="MM/DD 00:00"
             photoURL=""
             displayName="テスト"
