@@ -10,15 +10,16 @@ const Home = () => {
     <>
       <Typography variant="h1" component="div" align="center" gutterBottom>
         ECODERCE
+      </Typography>
         {
         !auth &&
-        <div>
-          <Link to="/login">Sign In</Link>
+        <Typography variant="h3" component="div" align="center" gutterBottom>
+          <Link style={{ textDecoration: "none", }} color="success" to="/login">Sign In</Link>
           <br />
-          <Link to="/register">Sign Up</Link>
-        </div>
+          <Link style={{ textDecoration: "none" }} color="secondary" to="/register">Sign Up</Link>
+        </Typography>
+
         }
-      </Typography>
     </>
   );
 };

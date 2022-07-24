@@ -34,7 +34,7 @@ const ItemListContainer = () => {
     return (
       <>
         <Typography sx={{ m: 2 }} variant="h1" component="div" align="center" gutterBottom>
-          Bienvenido {user.firstName}
+          Welcome {user.userName}
         </Typography>
         <ItemList items={items} isLoading={isLoading}/>
       </>

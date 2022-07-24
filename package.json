@@ -1,17 +1,17 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node -r dotenv/config cluster.js",
-    "devApp": "nodemon -r dotenv/config app.js",
+    "start": "node -r dotenv/config src/cluster.js",
+    "devApp": "nodemon -r dotenv/config src/app.js",
     "start:fork": "node -r dotenv/config cluster.js",
     "start:cluster": "node -r dotenv/config cluster.js 8080 cluster",
     "dev": "nodemon -r dotenv/config ./src/cluster.js",
     "cluster": "nodemon -r dotenv/config cluster.js 8080 cluster",
     "test:artillery": "artillery quick --count=50 -n 20 http://localhost:8080/login> result_Art-Fork.txt",
     "test:artillery-cluster": "artillery quick --count=50 -n 20 http://localhost:8080> result_Art-cluster.txt",
-    "lint": "eslint app.js",
+    "lint": "eslint src/app.js",
     "test:axios": "node -r dotenv/config ./test/axios/crud.test.js",
     "test:mocha": "mocha -r dotenv/config ./test/mocha/unit/*.test.js --timeout 10000 --exit"
   },

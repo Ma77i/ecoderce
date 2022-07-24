@@ -17,6 +17,7 @@ import UserAdmin from "./components/Admin/UserAdmin";
 import ProductAdmin from "./components/Admin/ProductAdmin";
 import OrderAdmin from "./components/Admin/OrderAdmin";
 import AddProduct from "./components/Admin/AddProduct";
+import Chat from "./components/Chat/Chat";
 
 // import { CartProvider } from "./Context/CartContext";
 
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="*" element={<Home />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/register" element={<SignUp />} />
+            <Route path="/chat" element={<Chat />} />
             <Route path="/logout" element={
               <ProtectedRoute>
                 <Logout />
