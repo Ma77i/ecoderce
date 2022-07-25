@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 
 const cors = require("cors");
 const http = require("http");
@@ -35,7 +36,6 @@ const { mongoConfig } = require("./config");
 const { HOSTNAME, SCHEMA, OPTIONS, DATABASE, USER, PASSWORD } = mongoConfig;
 
 // websocket
-const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
@@ -49,6 +49,16 @@ swaggerMiddleware(app);
 
 templateEngine(app);
 
+// import routers
+const adminRouter = require("./routes/admin.routes");
+const cartRouter = require("./routes/api.cart.routes");
+const chatRouter = require("./routes/api.chat.routes");
+const productRouter = require("./routes/api.products.routes");
+const orderRouter = require("./routes/api.orders.routes");
+const signRouter = require("./routes/api.sign.routes");
+const userRouter = require("./routes/api.user.routes");
+const homeRouter = require("./routes/home.routes");
+
 
 // CORS
 const corsCallback = (req, cb) => {
@@ -60,6 +70,11 @@ const corsCallback = (req, cb) => {
   } else {
     cb(null, { origin: true })
   }
+}
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+  
 }
 app.use(cors(corsCallback));
 app.use(express.json());
@@ -88,6 +103,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(compression());
 
+app.use("/admin", adminRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/chat", chatRouter);
+app.use("/api/products", productRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/sign", signRouter);
+app.use("/api/users", userRouter);
+app.use("/", homeRouter);
+
 // Socket connection
 io.on("connection", async (socket) => {
   // leo el mensaje nuevo y lo guardo en la base de datos
@@ -104,25 +128,6 @@ io.on("connection", async (socket) => {
   const norm = await chatController.getNorm;
   socket.emit("msNorm", norm);
 });
-
-// routers
-const adminRouter = require("./routes/admin.routes");
-const cartRouter = require("./routes/api.cart.routes");
-const chatRouter = require("./routes/api.chat.routes");
-const productRouter = require("./routes/api.products.routes");
-const orderRouter = require("./routes/api.orders.routes");
-const signRouter = require("./routes/api.sign.routes");
-const userRouter = require("./routes/api.user.routes");
-const homeRouter = require("./routes/home.routes");
-
-app.use("/admin", adminRouter);
-app.use("/api/cart", cartRouter);
-app.use("/api/chat", chatRouter);
-app.use("/api/products", productRouter);
-app.use("/api/orders", orderRouter);
-app.use("/api/sign", signRouter);
-app.use("/api/users", userRouter);
-app.use("/", homeRouter);
 
 // Mongoose connection
 mongoose

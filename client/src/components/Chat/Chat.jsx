@@ -21,6 +21,7 @@ const Chat = () => {
     axios.get(`${API_CHATS}`)
       .then(({data}) => {
         console.log(data.message);
+        console.log("Author: ", data.chat.author);
         const text = data.chat.map(m => console.log(m.author.mail === user.email) );
         console.log("TEXT: ", text);
         // setMessages(text);

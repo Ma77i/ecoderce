@@ -14,11 +14,13 @@ module.exports = {
     logger.info("Chats successfully retrieved from database")
     res.status(200).json({
       message: "Chats successfully retrieved from database",
-      chat: chat
+      chat: chat,
+      author: chat.author,
+      text: chat.text,
+      date: chat.date
     });
   },
 
-  // obtener chat por id
   getById: async (req, res) => {
     const { id } = req.params;
    
@@ -35,11 +37,10 @@ module.exports = {
     }
   },
 
-  // crear mensaje
-  post: async (req, res) => {
+  createText: async (req, res) => {
     const { body } = req;
     try {
-      const text = await chatModel.create(body);
+      const text = await chatModel.create({body});
       logger.info("Message successfully created in database");
       res.status(201).json({
         message: "Message successfully created in database",
@@ -88,7 +89,7 @@ module.exports = {
   },
 
   getNorm: async () => {
-    const author = new schema.Entity("authors", {}, { idAttribute: "mail" });
+    const author = new schema.Entity("authors", {}, { idAttribute: "email" });
     const chat = new schema.Entity("chats", {
       author: author
     });

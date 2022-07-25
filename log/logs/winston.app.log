@@ -3362,3 +3362,15 @@
     2022-07-24T19:56:11.265Z 
     error: 
     Message failed to be deleted Parameter "filter" to deleteOne() must be an object, got 62999919528555eaa5a3e244
+
+    2022-07-25T06:39:34.726Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-25T06:43:20.810Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-25T06:44:16.654Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.

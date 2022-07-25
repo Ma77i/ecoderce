@@ -15,7 +15,7 @@ const mailSender = require("../notifications/mail");
 
 module.exports = (passport) => {
   // authenticate user
-  const authenticateUser = async (email, password, done) => {
+  const authenticateUser = async (email, password, done ) => {
     try {
       if (!(await User.exists({ email }))) {
         logger.error("Mail doesn't exists");
@@ -28,6 +28,7 @@ module.exports = (passport) => {
       if (!isPasswordValid) {
         return done(null, false, { message: "Incorrect password" });
       }
+      
       logger.info("User successfully authenticated");
       done(null, user);
     } catch (err) {

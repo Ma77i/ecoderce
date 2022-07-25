@@ -1,20 +1,19 @@
 const mongoose = require("mongoose");
-const faker = require("faker");
 
 const chatSchema = new mongoose.Schema({
   author: {
-    mail: String,
-    name: String,
-    surname: String,
-    age: Number,
-    alias: String,
-    avatar: { type: String, default: faker.image.avatar() }
+    email: String,
+    firstName: String,
   },
   date: {
     type: String,
     default: Date.now()
   },
-  text: String
+  text: {
+    type: String,
+    required: true,
+    maxlength: 200
+  }
 });
 
 const Chat = mongoose.model("Chat", chatSchema);
