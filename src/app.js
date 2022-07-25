@@ -78,7 +78,11 @@ const corsCallback = (req, cb) => {
 app.use(cors(corsCallback));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/static", express.static(path.join(__dirname, "../public")));
+// app.use("/static", express.static(path.join(__dirname, "../public")));
+app.use("/static", express.static(path.join(__dirname, "../client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 app.use(flash());
 app.use(cookieParser("This is a secret"));
