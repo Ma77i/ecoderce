@@ -2,6 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "main": "app.js",
+  "engines": {
+    "node": "16.14.2"
+  },
   "scripts": {
     "start": "node -r dotenv/config src/cluster.js",
     "build": "cd client && npm run build",
