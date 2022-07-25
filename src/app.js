@@ -27,6 +27,9 @@ const chatModel = require("./models/chatModel");
 // controllers
 const chatController = require("./controllers/chat.controller");
 
+// logger
+const logger = require("./log");
+
 // initialize Passport
 initializePassport(passport);
 
@@ -72,27 +75,6 @@ const corsCallback = (req, cb) => {
   }
 }
 
-if (process.env.NODE_ENV === "production") {
-  // CORS
-  const corsCallback = (req, cb) => {
-    const origin = req.header('Origin')
-    const allowedHosts = ['http://localhost:3000', 'http://localhost:8080', 'https://localhost:3000', 'https://localhost:8080']
-
-    if (allowedHosts.includes(origin)) {
-      cb(null, { origin: true })
-    } else {
-      cb(null, { origin: true })
-    }
-  }
-  app.use(cors(corsCallback));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.static(path.join(__dirname, "../client/build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  })
-
-}
 app.use(cors(corsCallback));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -150,11 +132,13 @@ io.on("connection", async (socket) => {
 mongoose
   .connect(`${SCHEMA}://${USER}:${PASSWORD}@${HOSTNAME}/${DATABASE}?${OPTIONS}`)
   .then(() => {
-    console.log("Connected to mongoose");
+    logger.info("Connected to mongoose");
   })
-  .catch((err) => console.log("Error on mongo: ", err));
+  .catch((err) => logger.info("Error on mongo: ", err));
 
-// server.listen(process.env.PORT, () => console.log(`Server running on http://localhost:8080`))
-// server.on("err", (err) => console.log(`Error: ${err}`))
+  server.listen(process.env.PORT, () => {
+    logger.info(`Server listening on http://localhost:${process.env.PORT}`);
+  });
+server.on("err", (err) => logger.info(`Error: ${err}`))
 
 module.exports = server;

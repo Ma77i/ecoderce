@@ -5,7 +5,6 @@ const logger = require("../log");
 module.exports = {
   
   login: (req, res) => {
-    console.log(req.user)
 
     try {
       const token = generateToken(req.user);
@@ -27,7 +26,6 @@ module.exports = {
   },
 
   register: (req, res) => {
-    console.log(req.user)
     try {
       const token = generateToken(req.user);
         res.clearCookie("token");
@@ -67,7 +65,6 @@ module.exports = {
       res.status(201).redirect("/");
     } catch (err) {
       logger.error(err);
-      console.log(err);
       res.status(500).send(err);
     }
   }

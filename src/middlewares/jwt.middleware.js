@@ -1,17 +1,17 @@
 const { verifyToken } = require("../auth");
 
+const logger = require("../log");
+
 module.exports = (req, res, next) => {
-  // console.log("HEADER: ", req.headers);
+  
   const tokenAuth = req.headers.authorization.split(" ")[1];
-  // const tokCook1 = req.headers.cookie.split("=")[2];
-  // const tokenCook = req.headers.cookie.split(" ")[1];
 
   if (!verifyToken(tokenAuth)) {
     return res.status(401).json({
       message: "Unauthorized",
     });
   }
-  console.log("Token successfully verified");
+  logger.info("Token successfully verified");
   return next();
 
   
