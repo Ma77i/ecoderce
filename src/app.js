@@ -73,8 +73,25 @@ const corsCallback = (req, cb) => {
 }
 
 if (process.env.NODE_ENV === "production") {
+  // CORS
+  const corsCallback = (req, cb) => {
+    const origin = req.header('Origin')
+    const allowedHosts = ['http://localhost:3000', 'http://localhost:8080', 'https://localhost:3000', 'https://localhost:8080']
+
+    if (allowedHosts.includes(origin)) {
+      cb(null, { origin: true })
+    } else {
+      cb(null, { origin: true })
+    }
+  }
+  app.use(cors(corsCallback));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use(express.static(path.join(__dirname, "../client/build")));
-  
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  })
+
 }
 app.use(cors(corsCallback));
 app.use(express.json());
