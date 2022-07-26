@@ -3,6 +3,9 @@ import Item from "./Item";
 import Grid from "@mui/material/Grid";
 
 const ItemList = ({ items }) => {
+  if (!items) {
+    return <div>No items found</div>;
+  }
   
   return (
     <>

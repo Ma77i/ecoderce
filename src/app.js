@@ -80,13 +80,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use("/static", express.static(path.join(__dirname, "../public")));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(compression());
+// if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client", "build")))
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
-  });
-}
+  // app.get("*", (req, res) => {
+  //   res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
+  // });
+// }
 
 app.use(flash());
 app.use(cookieParser("This is a secret"));
