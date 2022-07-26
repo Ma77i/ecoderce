@@ -80,10 +80,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // HANDLEBARS
-// app.use("/static", express.static(path.join(__dirname, "../public")));
+app.use("/static", express.static(path.join(__dirname, "../public")));
 
 // REACT
-app.use(express.static(path.join(__dirname, "../client", "build")))
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client", "build")))
+}
 
 app.use(flash());
 app.use(cookieParser("This is a secret"));
