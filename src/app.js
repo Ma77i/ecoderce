@@ -78,14 +78,12 @@ const corsCallback = (req, cb) => {
 app.use(cors(corsCallback));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// HANDLEBARS
 // app.use("/static", express.static(path.join(__dirname, "../public")));
 
-// if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client", "build")))
-  // app.get("*", (req, res) => {
-  //   res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
-  // });
-// }
+// REACT
+app.use(express.static(path.join(__dirname, "../client", "build")))
 
 app.use(flash());
 app.use(cookieParser("This is a secret"));
