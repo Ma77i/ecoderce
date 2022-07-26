@@ -2,13 +2,42 @@ import React from "react";
 import Avatar from "@mui/material/Avatar";
 import { Box, Typography } from "@mui/material";
 
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:8080");
+
+console.log("SOCKET", socket);
+
 
 
 export const MessageLeft = (props) => {
-  const message = props.message ? props.message : "no message";
+  // const message = props.message ? props.message : "no message";
   const timestamp = props.timestamp ? props.timestamp : "";
   const photoURL = props.photoURL ? props.photoURL : "dummy.js";
   const displayName = props.displayName ? props.displayName : "User Name";
+  
+  const [message, setMessage] = React.useState([]);
+  const [isConnected, setIsConnected] = React.useState(false);
+  
+  React.useEffect(() => {
+    socket.on("connect", () => {
+      console.log(socket.connected); // true
+      setIsConnected(true);
+      console.log('connected');
+    });
+    
+    socket.on("disconnect", () => {
+      console.log(socket.connected); // false
+      setIsConnected(false);
+    });
+
+    socket.on("msjs", (data) => {
+      console.log("MSJS", data);
+      setMessage(data);
+    });
+  }, []);
+
+  console.log("MESSAGE", message);
 
   return (
     <>
@@ -24,7 +53,7 @@ export const MessageLeft = (props) => {
               marginLeft: "20px"
             }}
           >
-            {displayName}
+            {isConnected ? ( <Typography variant="body1">{message}</Typography> ) : ( <Typography variant="body1">Disconnected</Typography> )}
           </Box>
           <Box
             sx={{
@@ -97,6 +126,8 @@ export const MessageLeft = (props) => {
 export const MessageRight = (props) => {
   const message = props.message ? props.message : "no message";
   const timestamp = props.timestamp ? props.timestamp : "";
+
+
   return (
     <Box
       sx={{

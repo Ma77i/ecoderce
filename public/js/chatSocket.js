@@ -29,7 +29,7 @@ const addMsj = (e) => {
   };
   console.log("Guardado del navegador: F:", chat);
 
-  socket.emit("newMsj", chat);
+  socket.emit("newMessage", chat);
 
   form.reset();
   return false;
@@ -40,7 +40,7 @@ btn.addEventListener("click", addMsj);
 
 //renderizo el chat
 const renderChat = (chat) => {
-  
+  console.log("Renderizado del navegador: F:", chat);
   const room = chat
     .map(
       (e) =>

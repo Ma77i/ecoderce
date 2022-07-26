@@ -28,8 +28,7 @@ export const AuthProvider = ({ children }) => {
     password: '',
     confirmPassword: ''
   })
-
-  console.log("AUTH", auth)
+  const [ error, setError ] = useState(null)
 
   const navigate = useNavigate();
 
@@ -45,8 +44,11 @@ export const AuthProvider = ({ children }) => {
       })
       .catch((err) => {
         console.log(err)
+        setError(err.response.data.message)
       })
   };
+
+  console.log(error)
 
   const handleChangeLogin = (e) => {
     e.preventDefault();

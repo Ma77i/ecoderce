@@ -3490,3 +3490,35 @@
     2022-07-26T02:12:57.886Z 
     warn: 
     la ruta no existe
+
+    2022-07-26T05:54:16.690Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-26T06:00:25.569Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-26T06:00:30.244Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-26T06:00:30.870Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-26T06:00:33.566Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-26T06:00:34.358Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-26T06:00:34.606Z 
+    error: 
+    Message failed to be created Chat validation failed: text: Path `text` is required.
+
+    2022-07-26T06:56:16.865Z 
+    error: 
+    Mail doesn't exists

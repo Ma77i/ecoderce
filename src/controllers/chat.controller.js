@@ -15,9 +15,6 @@ module.exports = {
     res.status(200).json({
       message: "Chats successfully retrieved from database",
       chat: chat,
-      author: chat.author,
-      text: chat.text,
-      date: chat.date
     });
   },
 
@@ -33,12 +30,13 @@ module.exports = {
       });
     } catch (error) {
       logger.error("Chat failed to retrieve from database", error);
-      res.status(500);
+      res.status(500).send(error);
     }
   },
 
   createText: async (req, res) => {
     const { body } = req;
+    console.log(req.body);
     try {
       const text = await chatModel.create({body});
       logger.info("Message successfully created in database");

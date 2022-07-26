@@ -26,7 +26,6 @@ const ItemListContainer = () => {
       )
     }, []);
 
-    console.log("items", items);
 
   if (isLoading) {
     return <Loader />

@@ -66,7 +66,7 @@ const homeRouter = require("./routes/home.routes");
 // CORS
 const corsCallback = (req, cb) => {
   const origin = req.header('Origin')
-  const allowedHosts = ['http://localhost:3000', 'http://localhost:8080', 'https://localhost:3000', 'https://localhost:8080']
+  const allowedHosts = ['http://localhost:3000', 'http://localhost:8080', 'https://ecoderce.herokuapp.com']
 
   if (allowedHosts.includes(origin)) {
     cb(null, { origin: true })
@@ -84,7 +84,8 @@ app.use("/static", express.static(path.join(__dirname, "../public")));
 
 // REACT
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client", "build")))
+  app.use(cors(corsCallback));
+  app.use(express.static(path.join(__dirname, "../client/build")))
 }
 
 app.use(flash());
@@ -120,19 +121,20 @@ app.use("/", homeRouter);
 
 // Socket connection
 io.on("connection", async (socket) => {
-  // leo el mensaje nuevo y lo guardo en la base de datos
-  socket.on("newMsj", async (data) => {
+  logger.info("a user connected");
+  
+  socket.on("newMessage", async (data) => {
+    console.log("New Message: ", data);
     const msj = await chatModel.create(data);
     return msj;
   });
 
-  // obtengo los mensajes y los envio por socket emit
-  const msjs = await chatModel.find();
+  const msjs = await chatModel.find(); 
   io.sockets.emit("msjs", msjs);
 
   // obtengo los mensajes normalizados
-  const norm = await chatController.getNorm;
-  socket.emit("msNorm", norm);
+  // const norm = await chatController.getNorm;
+  // socket.emit("msNorm", norm);
 });
 
 // Mongoose connection

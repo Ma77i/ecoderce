@@ -4,34 +4,41 @@ import { TextInput } from "./TextInput.jsx";
 import { MessageLeft, MessageRight } from "./Message";
 import { Box } from "@mui/material";
 
-import { AuthContext } from "../../Context/AuthContext";
-import axios from 'axios';
-const API_CHATS = "http://localhost:8080/api/chat"
+// import { AuthContext } from "../../Context/AuthContext";
+// import axios from 'axios';
+// const API_CHATS = "http://localhost:8080/api/chat"
 
 
 
 
 const Chat = () => {
-  const { user } = React.useContext(AuthContext);
-  const [messages, setMessages] = React.useState([]);
+  // const { user } = React.useContext(AuthContext);
+  // const [ chat, setChat ] = React.useState([]);
   
-  console.log("User", user);
+  // React.useEffect(() => {
+  //   axios.get(`${API_CHATS}`)
+  //     .then(({data}) => {
+  //       console.log(data.message);
+  //       setChat(data.chat);
+  //     })
+  //     .catch((err) => console.log("Error getting chats", err));
+  // }, [user]);
 
-  React.useEffect(() => {
-    axios.get(`${API_CHATS}`)
-      .then(({data}) => {
-        console.log(data.message);
-        console.log("Author: ", data.chat.author);
-        const text = data.chat.map(m => console.log(m.author.mail === user.email) );
-        console.log("TEXT: ", text);
-        // setMessages(text);
-        setMessages(data.chat);
-      })
-      .catch((err) => console.log("Error getting chats", err));
-  }, [user]);
-
-  console.log(messages);
-
+  // const texts = chat.map(m=>m.text);
+  // const authors = chat.map(m=>m.author);
+  
+  // const texts = chat.map((message, index) => {
+  //   if (message.author === user.username) {
+  //     return <MessageRight key={index}>{message.text}</MessageRight>;
+  //   } else {
+  //     return <MessageLeft key={index}>{message.text}</MessageLeft>;
+  //   }
+  // }
+  // );
+;
+  // console.log("AUTHOR", authors);
+  // console.log("CHAT", chat);
+  // console.log("TEXTSS", texts);
 
   return (
     <Box sx={{
@@ -60,18 +67,11 @@ const Chat = () => {
           }}
           id="style-1">
           <MessageLeft
-            message="Hola"
+            message="{}"
             timestamp="MM/DD 00:00"
             photoURL="www"
             displayName=""
             avatarDisp={true}
-          />
-          <MessageLeft
-            message="alo"
-            timestamp="MM/DD 00:00"
-            photoURL=""
-            displayName="テスト"
-            avatarDisp={false}
           />
           <MessageRight
             message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
@@ -79,13 +79,6 @@ const Chat = () => {
             photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
             displayName="まさりぶ"
             avatarDisp={true}
-          />
-          <MessageRight
-            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="まさりぶ"
-            avatarDisp={false}
           />
         </Paper>
         <TextInput />
