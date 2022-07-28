@@ -76,6 +76,7 @@ module.exports = {
     try {
       await chatModel.deleteMany();
       const chats = await chatModel.find();
+      logger.info("All messages successfully deleted from database");
       res.status(200).json({
         message: "All messages successfully deleted from database",
         chats: chats

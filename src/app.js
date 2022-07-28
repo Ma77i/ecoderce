@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+const config = require("./config");
+
 const cors = require("cors");
 const http = require("http");
 const path = require("path");
@@ -40,7 +42,12 @@ const { HOSTNAME, SCHEMA, OPTIONS, DATABASE, USER, PASSWORD } = mongoConfig;
 
 // websocket
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
 
 // swagger doc
 const swaggerMiddleware = require("./middlewares/swagger.middleware");
@@ -89,7 +96,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(flash());
-app.use(cookieParser("This is a secret"));
+app.use(cookieParser(config.SECRET));
 app.use(
   session({
     secret: "secret",
@@ -121,16 +128,26 @@ app.use("/", homeRouter);
 
 // Socket connection
 io.on("connection", async (socket) => {
-  logger.info("a user connected");
+  // logger.info(`User ${socket.id} connected`);
+
+  // const chats = await chatModel.find();
+  // socket.emit("messages", chats); 
+  // io.sockets.emit("msjs", msjs);
+
+  socket.on("join_chat", (data) => {
+    socket.join(data);
+    logger.info(`User ${data} joined the chat`)
+  })
   
   socket.on("newMessage", async (data) => {
-    console.log("New Message: ", data);
-    const msj = await chatModel.create(data);
-    return msj;
+    await chatModel.create(data);
+    io.sockets.emit("messages", data);
+    logger.info(`New message received`);
   });
 
-  const msjs = await chatModel.find(); 
-  io.sockets.emit("msjs", msjs);
+  socket.on("disconnect", () => {
+    logger.info(`User ${socket.id} disconnected`);
+  });
 
   // obtengo los mensajes normalizados
   // const norm = await chatController.getNorm;

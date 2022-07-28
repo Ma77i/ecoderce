@@ -1,90 +1,88 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
-import { TextInput } from "./TextInput.jsx";
-import { MessageLeft, MessageRight } from "./Message";
+import TextInput from "./TextInput.jsx";
+import Message from "./Message";
+import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
+import io from "socket.io-client";
+import { AuthContext } from "../../Context/AuthContext";
 
-// import { AuthContext } from "../../Context/AuthContext";
+
 // import axios from 'axios';
-// const API_CHATS = "http://localhost:8080/api/chat"
-
-
-
+// const API_CHAT = "http://localhost:8080/api/chat";
+const socket = io.connect("http://localhost:8080");
 
 const Chat = () => {
-  // const { user } = React.useContext(AuthContext);
-  // const [ chat, setChat ] = React.useState([]);
-  
-  // React.useEffect(() => {
-  //   axios.get(`${API_CHATS}`)
-  //     .then(({data}) => {
-  //       console.log(data.message);
-  //       setChat(data.chat);
-  //     })
-  //     .catch((err) => console.log("Error getting chats", err));
-  // }, [user]);
+  const { user } = React.useContext(AuthContext);
+  const [messagesList, setMessagesList] = React.useState([]);
 
-  // const texts = chat.map(m=>m.text);
-  // const authors = chat.map(m=>m.author);
-  
-  // const texts = chat.map((message, index) => {
-  //   if (message.author === user.username) {
-  //     return <MessageRight key={index}>{message.text}</MessageRight>;
-  //   } else {
-  //     return <MessageLeft key={index}>{message.text}</MessageLeft>;
-  //   }
-  // }
-  // );
-;
-  // console.log("AUTHOR", authors);
-  // console.log("CHAT", chat);
-  // console.log("TEXTSS", texts);
+  if (user) {
+    socket.emit("join_chat", user.userName);
+  }
+
+  React.useEffect(() => {
+    socket.on("messages", (data) => {
+      setMessagesList((list) => [...list, data]);
+      console.log(`Message from ${data.author} received`);
+    });
+  }, []);
+
+  // React.useEffect(() => {
+  //   axios.get(API_CHAT)
+  //     .then(({res}) => {
+  //       console.log(res);
+  //       console.log(res.message);
+  //       setMessagesList(res.chat)
+  //     })
+  //     .catch(err => console.log(err))
+  //   socket.on("messages", (data) => {
+  //     console.log(`Message from ${data.author} received`);
+  //   });
+  // }, []);
+
+  console.log("MessageList", messagesList);
 
   return (
-    <Box sx={{
-      width: "100vw",
-      height: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
-    }}>
-      <Paper sx={{
-        width: "80vw",
-        height: "80vh",
-        maxWidth: "500px",
-        maxHeight: "700px",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        position: "relative"
-      }} >
-        <Paper 
+    <>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "20px"
+        }}
+      >
+        <Paper
           sx={{
-            width: "calc( 100% - 20px )",
-            margin: 10,
-            overflowY: "scroll",
-            height: "calc( 100% - 80px )"
+            width: "80vw",
+            height: "80vh",
+            maxWidth: "500px",
+            maxHeight: "700px",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            position: "relative"
           }}
-          id="style-1">
-          <MessageLeft
-            message="{}"
-            timestamp="MM/DD 00:00"
-            photoURL="www"
-            displayName=""
-            avatarDisp={true}
-          />
-          <MessageRight
-            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="まさりぶ"
-            avatarDisp={true}
-          />
+        >
+                <Typography variant="h2" component="h2" align="center" gutterBottom>
+        CHAT
+      </Typography>
+          <Paper
+            sx={{
+              width: "calc( 100% - 20px )",
+              margin: "10px",
+              // overflowY: "scroll",
+              height: "calc( 100% - 80px )"
+            }}
+          >
+            <Message messageContent={messagesList} />
+          </Paper>
+          <TextInput />
         </Paper>
-        <TextInput />
-      </Paper>
-    </Box>
+      </Box>
+    </>
   );
-}
+};
 
 export default Chat;

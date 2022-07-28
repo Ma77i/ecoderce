@@ -2,3 +2,10 @@
     color: #ffffff;
     text-decoration: none;
 }
+
+.messageContainer {
+    width: "calc( 100% - 20px )";
+    margin: "10px";
+    /* overflowY: "scroll"; */
+    height: "calc( 100% - 80px )"
+}

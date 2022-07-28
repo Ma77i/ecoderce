@@ -1,13 +1,8 @@
 
 const socket = io();
 const btn = document.getElementById("btn");
-const inputMail = document.getElementById("mail");
 const inputMsj = document.getElementById("mensaje");
 const inputName = document.getElementById("nombre");
-const inputSrnme = document.getElementById("apellido");
-const inputAge = document.getElementById("edad");
-const inputAka = document.getElementById("alias");
-const inputAvt = document.getElementById("avatar");
 const form = document.getElementById("formulario");
 
 
@@ -15,16 +10,17 @@ const form = document.getElementById("formulario");
 const addMsj = (e) => {
   e.preventDefault();
 
-  if (!inputMsj.value || !inputMail.value) {
+  if (!inputMsj.value || !inputName.value) {
     return;
   }
 
   const chat = {
     author: {
-      email: inputMail.value,
-      firstName: inputName.value,
+      userName: inputName.value,
     },
-    date: Date.now(),
+    date: new Date(Date.now()).getHours() +
+    ":" +
+    new Date(Date.now()).getMinutes(),
     text: inputMsj.value,
   };
   console.log("Guardado del navegador: F:", chat);
@@ -44,11 +40,10 @@ const renderChat = (chat) => {
   const room = chat
     .map(
       (e) =>
-        `<p><strong>-${e.author.email} </strong>${e.date}<em class="bubble">: ${e.text}</em></p>`
+        `<p><strong>-${e.author.userName} </strong>${e.date}<em class="bubble">: ${e.text}</em></p>`
     )
     .join(" ");
   document.getElementById("room").innerHTML = room;
-  //console.log(room)
 };
 
 socket.on("msjs", (data) => renderChat(data));

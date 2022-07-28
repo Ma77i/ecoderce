@@ -3,60 +3,50 @@ import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-
 import { AuthContext } from "../../Context/AuthContext";
-import axios from "axios";
-import io from 'socket.io-client'
+import io from "socket.io-client";
 
-const socket = io();
+const socket = io.connect("http://localhost:8080");
 
-const API_CHATS = "http://localhost:8080/api/chat";
 
-export const TextInput = () => {
+const TextInput = () => {
   const { user } = React.useContext(AuthContext);
-  const [chat, setChat] = React.useState([]);
-  const [textCredentials, setTextCredentials] = React.useState({
-    author: {
-      email: user.email,
-      firstName: user.userName,  
-    },
-    text: "",
-  });
+  const [textCredentials, setTextCredentials] = React.useState("");
 
-  const handleText = (e) => {
+  const handleSendText = async (e) => {
     e.preventDefault();
-    socket.emit("newMessage", textCredentials);
-    e.target.reset();
-    console.log("SENDING", textCredentials);
-
-    // e.preventDefault();
-    // axios
-    //   .post(API_CHATS, textCredentials)
-    //   .then(({ data }) => {
-    //     console.log(data.message);
-    //     setChat(data.chat);
-    //   })
-    //   .catch((err) => console.log("Error getting chats", err));
-    //   console.log(textCredentials);
+    if (textCredentials !== "") {
+      const messageData = {
+        author: user.userName,
+        text: textCredentials,
+        date: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
+      };
+      await socket.emit("newMessage", messageData);
+    }
+    setTextCredentials("");
+    console.log("Message successfully sent");
   };
 
   const handleChange = (e) => {
     e.preventDefault();
-    setTextCredentials({
-      ...textCredentials,
-      [e.target.name]: e.target.value
-    });
+    setTextCredentials(e.target.value)
   };
 
   return (
     <>
-      <Box component="form" noValidate onSubmit={handleText} 
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSendText}
         sx={{
           display: "flex",
           justifyContent: "center",
           width: "95%",
-          margin: "auto"
-        }}>
+          marginBottom: "10px",
+          overflowWrap: "break-word",
+          
+        }}
+      >
         <TextField
           autoComplete="text-input"
           name="text"
@@ -64,38 +54,17 @@ export const TextInput = () => {
           fullWidth
           id="text"
           label="Text Here"
-          value={textCredentials.text}
+          value={textCredentials}
           onChange={handleChange}
+          onKeyPress={(e) => {e.key === "Enter" && handleSendText(e);}}
           autoFocus
         />
-        <IconButton type="submit">
-          <SendIcon />
+        <IconButton type="submit" aria-label="send">
+          <SendIcon color="primary" />
         </IconButton>
       </Box>
-      {/* <Box
-        component="form"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          width: "95%",
-          margin: "auto"
-        }}
-        noValidate
-        onSubmit={handleText}
-      >
-        <TextField
-          id="standard-text"
-          label="Text here"
-          sx={{
-            width: "100%"
-          }}
-          value={textCredentials.text}
-          onChange={handleChange}
-        />
-        <Button variant="contained" color="primary" type="submit">
-          <SendIcon />
-        </Button>
-      </Box> */}
     </>
   );
 };
+
+export default TextInput;

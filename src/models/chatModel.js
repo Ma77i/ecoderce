@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 
 const chatSchema = new mongoose.Schema({
   author: {
-    email: String,
-    firstName: String,
+    type: String,
   },
   date: {
     type: String,
-    default: Date.now()
+    default: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
   },
   text: {
     type: String,
