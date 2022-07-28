@@ -13,7 +13,7 @@ const Home = () => {
       </Typography>
         {
         !auth &&
-        <Typography variant="h3" component="div" align="center" gutterBottom>
+        <Typography variant="h3" component="div" fontWeight="bold" align="center" gutterBottom>
           <Link style={{ textDecoration: "none", }} color="success" to="/login">Sign In</Link>
           <br />
           <Link style={{ textDecoration: "none" }} color="secondary" to="/register">Sign Up</Link>
