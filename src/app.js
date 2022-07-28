@@ -92,7 +92,7 @@ app.use("/static", express.static(path.join(__dirname, "../public")));
 
 // REACT
 if (process.env.NODE_ENV === "production") {
-  app.use(cors(corsCallback));
+  app.use(cors());
   app.use(express.static(path.join(__dirname, "../client/build")))
 }
 
