@@ -42,7 +42,7 @@ const { HOSTNAME, SCHEMA, OPTIONS, DATABASE, USER, PASSWORD } = config.mongoConf
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://ecoderce.herokuapp.com",
     methods: ["GET", "POST"]
   }
 });
@@ -68,20 +68,20 @@ const userRouter = require("./routes/api.user.routes");
 const homeRouter = require("./routes/home.routes");
 
 
-// CORS
-// const corsCallback = (req, cb) => {
-//   const origin = req.header('Origin')
-//   const allowedHosts = ['http://localhost:3000', 'http://localhost:8080', 'https://ecoderce.herokuapp.com']
+CORS
+const corsCallback = (req, cb) => {
+  const origin = req.header('Origin')
+  const allowedHosts = ['http://localhost:3000', 'http://localhost:8080', 'https://ecoderce.herokuapp.com']
 
-//   if (allowedHosts.includes(origin)) {
-//     cb(null, { origin: true })
-//   } else {
-//     cb(null, { origin: true })
-//   }
-// }
+  if (allowedHosts.includes(origin)) {
+    cb(null, { origin: true })
+  } else {
+    cb(null, { origin: true })
+  }
+}
 
-app.use(cors());
-// app.use(cors(corsCallback));
+// app.use(cors());
+app.use(cors(corsCallback));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
