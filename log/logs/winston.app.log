@@ -3562,3 +3562,15 @@
     2022-07-28T18:06:01.300Z 
     warn: 
     la ruta no existe
+
+    2022-07-29T19:46:38.628Z 
+    warn: 
+    la ruta no existe
+
+    2022-07-29T19:47:16.728Z 
+    error: 
+    This mail already exists
+
+    2022-07-29T19:47:53.367Z 
+    error: 
+    undefined

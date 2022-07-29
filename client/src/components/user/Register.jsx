@@ -14,9 +14,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
-// const API_REGISTER = 'http://localhost:8080/api/sign/register';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Copyright = (props) => {
   return (
@@ -44,24 +43,24 @@ const theme = createTheme({
 
 const SignUp = () => {
 
-  const { registerCredentials, handleSubmitRegister, handleChangeRegister } = React.useContext(AuthContext);
-  // const navigate = useNavigate();
-  // const { registerCredentials, handleChangeRegister, setAuth, setUser } = React.useContext(AuthContext);
+  // const { registerCredentials, handleSubmitRegister, handleChangeRegister } = React.useContext(AuthContext);
+  const navigate = useNavigate();
+  const { registerCredentials, handleChangeRegister, setAuth, setUser } = React.useContext(AuthContext);
 
 
-  // const handleSubmitRegister = (e) => {
-  //   e.preventDefault();
-  //   axios.post(API_REGISTER, registerCredentials)
-  //     .then((res) => {
-  //       const token = res.data;
-  //       setAuth(token)
-  //       setUser(res.data.user)
-  //       navigate('/store')
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // }
+  const handleSubmitRegister = (e) => {
+    e.preventDefault();
+    axios.post("/api/sign/register", registerCredentials)
+      .then((res) => {
+        const token = res.data;
+        setAuth(token)
+        setUser(res.data.user)
+        navigate('/store')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   return (
     <ThemeProvider theme={theme}>
