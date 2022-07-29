@@ -5,9 +5,7 @@ import { useParams } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
 import Loader from "../utils/Loader";
 
-// const URL = "http://localhost:8080/graphql";
-const API_URL = "http://localhost:8080/api/products";
-// const FAKE_API = "https://fakestoreapi.com/products"
+const API_URL = "/api/products";
 
 const ItemDetailContainer = () => {
 

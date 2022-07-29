@@ -2,9 +2,9 @@ import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_LOGIN = 'http://localhost:8080/api/sign/login';
-const API_REGISTER = 'http://localhost:8080/sign/register';
-const API_LOGOUT = 'http://localhost:8080/logout';
+const API_LOGIN = 'https://ecoderce.herokuapp.com/api/sign/login';
+const API_REGISTER = 'https://ecoderce.herokuapp.com/api/sign/register';
+const API_LOGOUT = 'https://ecoderce.herokuapp.com/api/sign/logout';
 
 
 
@@ -47,6 +47,20 @@ export const AuthProvider = ({ children }) => {
         setError(err.response.data.message)
       })
   };
+  // const handleSubmitLogin = (e) => {
+  //   e.preventDefault();
+  //   try {
+  //   const res = fetch(`/api/sign/login`, { method: 'POST' })
+  //   const token = res.data;
+  //   setAuth(token)
+  //   setUser(res.data.user)
+  //   localStorage.setItem('user', res.data)
+  //   navigate('/store')
+  //   } catch (err) {
+  //       console.log(err)
+  //       setError(err.response.data.message)
+  //     }
+  // };
 
   console.log(error)
 

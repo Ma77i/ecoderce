@@ -6,7 +6,7 @@ import ItemList from "./ItemList";
 import Loader from "../utils/Loader";
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/products";
+const API_URL = "/api/products";
 
 const ItemListContainer = () => {
   const [items, setItems] = useState([]);
