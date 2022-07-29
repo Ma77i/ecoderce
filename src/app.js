@@ -68,7 +68,7 @@ const userRouter = require("./routes/api.user.routes");
 const homeRouter = require("./routes/home.routes");
 
 
-CORS
+// CORS
 const corsCallback = (req, cb) => {
   const origin = req.header('Origin')
   const allowedHosts = ['http://localhost:3000', 'http://localhost:8080', 'https://ecoderce.herokuapp.com']
