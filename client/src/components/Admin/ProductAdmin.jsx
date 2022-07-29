@@ -14,8 +14,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import axios from 'axios';
 import { Button } from '@mui/material';
-const API_PRODUCTS = "http://localhost:8080/api/products";
-const DELETE_PRODUCT = "http://localhost:8080/api/products/";
 
 
 const Demo = styled('div')(({ theme }) => ({
@@ -27,7 +25,7 @@ const ProductAdmin = () => {
   
   // API
   React.useEffect(() => {
-    axios.get(`${API_PRODUCTS}`)
+    axios.get(`/api/products`)
       .then(({data}) => {
           console.log(data.message);
           setItems(data.products);
@@ -36,7 +34,7 @@ const ProductAdmin = () => {
     }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`${DELETE_PRODUCT}${id}`)
+    axios.delete(`/api/products/${id}`)
       .then(({data}) => {
           console.log(data.message);
           setItems(data.products);

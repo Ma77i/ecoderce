@@ -6,7 +6,6 @@ import ItemList from "./ItemList";
 import Loader from "../utils/Loader";
 import axios from "axios";
 
-const API_URL = "/api/products";
 
 const ItemListContainer = () => {
   const [items, setItems] = useState([]);
@@ -17,7 +16,7 @@ const ItemListContainer = () => {
   // API
   useEffect(() => {
     setIsLoading(true)
-    axios.get(`${API_URL}`)
+    axios.get(`/api/products`)
       .then(({data}) => {
           console.log(data.message);
           setItems(data.products);

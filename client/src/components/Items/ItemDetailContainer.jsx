@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
 import Loader from "../utils/Loader";
 
-const API_URL = "/api/products";
 
 const ItemDetailContainer = () => {
 
@@ -18,7 +17,7 @@ const ItemDetailContainer = () => {
     setIsLoading(true)
 
       axios
-        .get(`${API_URL}/${param.id}`)
+        .get(`/api/products/${param.id}`)
         .then(({data}) => {
           console.log(data.message);
           setItem(data.product);

@@ -36,9 +36,7 @@ const logger = require("./log");
 initializePassport(passport);
 
 // mongo configurations
-const { mongoConfig } = require("./config");
-
-const { HOSTNAME, SCHEMA, OPTIONS, DATABASE, USER, PASSWORD } = mongoConfig;
+const { HOSTNAME, SCHEMA, OPTIONS, DATABASE, USER, PASSWORD } = config.mongoConfig;
 
 // websocket
 const server = http.createServer(app);
@@ -96,6 +94,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")))
 }
 
+// cookie session
 app.use(flash());
 app.use(cookieParser(config.SECRET));
 app.use(
@@ -118,6 +117,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(compression());
 
+// routers
 app.use("/admin", adminRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/chat", chatRouter);
@@ -129,11 +129,6 @@ app.use("/", homeRouter);
 
 // Socket connection
 io.on("connection", async (socket) => {
-  // logger.info(`User ${socket.id} connected`);
-
-  // const chats = await chatModel.find();
-  // socket.emit("messages", chats); 
-  // io.sockets.emit("msjs", msjs);
 
   socket.on("join_chat", (data) => {
     socket.join(data);
@@ -150,9 +145,6 @@ io.on("connection", async (socket) => {
     logger.info(`User ${socket.id} disconnected`);
   });
 
-  // obtengo los mensajes normalizados
-  // const norm = await chatController.getNorm;
-  // socket.emit("msNorm", norm);
 });
 
 // Mongoose connection

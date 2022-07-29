@@ -9,15 +9,13 @@ import Box from "@mui/material/Box";
 
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
-const API_CART = 'http://localhost:8080/api/cart';
-const CURRENT_CART = 'http://localhost:8080/api/cart/currentCart';
 
 const ItemDetail = ({ item }) => {
   const { user, auth } = React.useContext(AuthContext);
   const [cart, setCart] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get(`${CURRENT_CART}/${user._id}`,
+    axios.get(`/api/cart/currentCart/${user._id}`,
     {
       headers: {
         Authorization: `Bearer ${auth.token}`
@@ -29,7 +27,7 @@ const ItemDetail = ({ item }) => {
   }, [user._id, auth.token]);
 
   const handleAddToCart = () => {
-    axios.post(`${API_CART}/${cart.cartId}/products/${item._id}`)
+    axios.post(`/api/cart/${cart.cartId}/products/${item._id}`)
       .then(({data}) => {
         console.log(data.message);
       })

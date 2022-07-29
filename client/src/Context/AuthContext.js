@@ -2,12 +2,6 @@ import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_LOGIN = 'https://ecoderce.herokuapp.com/api/sign/login';
-const API_REGISTER = 'https://ecoderce.herokuapp.com/api/sign/register';
-const API_LOGOUT = 'https://ecoderce.herokuapp.com/api/sign/logout';
-
-
-
 
 export const AuthContext = createContext()
 
@@ -34,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleSubmitLogin = (e) => {
     e.preventDefault();
-    axios.post(API_LOGIN, loginCredentials)
+    axios.post(`/api/sign/login`, loginCredentials)
       .then((res) => {
         const token = res.data;
         setAuth(token)
@@ -47,20 +41,7 @@ export const AuthProvider = ({ children }) => {
         setError(err.response.data.message)
       })
   };
-  // const handleSubmitLogin = (e) => {
-  //   e.preventDefault();
-  //   try {
-  //   const res = fetch(`/api/sign/login`, { method: 'POST' })
-  //   const token = res.data;
-  //   setAuth(token)
-  //   setUser(res.data.user)
-  //   localStorage.setItem('user', res.data)
-  //   navigate('/store')
-  //   } catch (err) {
-  //       console.log(err)
-  //       setError(err.response.data.message)
-  //     }
-  // };
+
 
   console.log(error)
 
@@ -84,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     console.log("antes")
     e.preventDefault();
     console.log("despues")
-    axios.post(API_REGISTER, registerCredentials)
+    axios.post(`/api/sign/register`, registerCredentials)
       .then((res) => {
         const token = res.data;
         setAuth(token)
@@ -97,7 +78,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const handleLogout = () => {
-    axios.get(API_LOGOUT)
+    axios.get(`/api/sign/logout`)
     setAuth(null)
     navigate("/")
   }

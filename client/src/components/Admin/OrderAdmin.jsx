@@ -15,7 +15,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import axios from 'axios';
 import { Button } from '@mui/material';
-const API_ORDERS = "http://localhost:8080/api/orders";
 
 
 
@@ -31,7 +30,7 @@ const OrderAdmin = () => {
   
   // API
   React.useEffect(() => {
-    axios.get(`${API_ORDERS}`)
+    axios.get(`/api/orders`)
       .then(({data}) => {
           console.log(data.message);
           setOrders(data.orders);
@@ -41,7 +40,7 @@ const OrderAdmin = () => {
 
 
     const deleteOrder = (id) => {
-      axios.delete(`${API_ORDERS}/${id}`)
+      axios.delete(`/api/orders/${id}`)
         .then(({data}) => {
             console.log(data.message);
             setOrders(data.orders);
@@ -50,7 +49,7 @@ const OrderAdmin = () => {
     }
 
     const deleteAllOrders = () => {
-      axios.delete(API_ORDERS)
+      axios.delete("/api/orders")
         .then(({data}) => {
             console.log(data.message);
             setOrders(data.orders);
@@ -59,7 +58,7 @@ const OrderAdmin = () => {
     }
 
     const sendOrder = (id) => {
-      axios.put(`${API_ORDERS}/${id}`)
+      axios.put(`/api/orders/${id}`)
         .then(({data}) => {
             console.log(data.message);
             setOrders(data.orders);

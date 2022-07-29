@@ -9,9 +9,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import axios from 'axios';
-const API_PRODUCTS = "http://localhost:8080/api/products";
 
 
 const theme = createTheme({
@@ -37,7 +35,7 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(API_PRODUCTS, product)
+    axios.post(`/api/products`, product)
       .then(({res}) => {
         console.log(res.message);
       })

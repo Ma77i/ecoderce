@@ -35,7 +35,7 @@ const NavBar = () => {
   // React.useEffect(() => {
   //   if (user) {
   //     console.log(user)
-  //     axios.get(`${API_CART}/currentCart/${user._id}`, {
+  //     axios.get(`/api/cart/currentCart/${user._id}`, {
   //       headers: { Authorization: `Bearer ${auth.token}` }
   //     }).then(({ data }) => {
   //       console.log(data.message);

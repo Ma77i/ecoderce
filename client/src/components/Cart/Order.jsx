@@ -3,13 +3,11 @@ import { AuthContext } from '../../Context/AuthContext';
 import Typography from '@mui/material/Typography';
 import axios from 'axios'
 
-const API_ORDERS = "http://localhost:8080/api/orders"
-
 const Order = () => {
   const { auth } = React.useContext(AuthContext);
 
   React.useEffect(() => {
-    axios.post(`${API_ORDERS}/${auth.user._id}`, {}, { headers: { Authorization: `Bearer ${auth.token}` } })
+    axios.post(`/api/orders/${auth.user._id}`, {}, { headers: { Authorization: `Bearer ${auth.token}` } })
       .then(({data}) => {
         console.log(data.message);
       })

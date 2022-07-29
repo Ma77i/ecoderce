@@ -37,7 +37,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-const API_CART = "http://localhost:8080/api/cart";
 
 const Cart = () => {
   //  const { cart } = useContext(CartContext);
@@ -49,7 +48,7 @@ const Cart = () => {
   React.useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`${API_CART}/currentCart/${user._id}`, {
+      .get(`/api/cart/currentCart/${user._id}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`
         }
@@ -66,7 +65,7 @@ const Cart = () => {
 
   const handleRemoveFromCart = (itemId) => {
     axios
-      .delete(`${API_CART}/${cart._id}/products/${itemId}`)
+      .delete(`/api/cart/${cart._id}/products/${itemId}`)
       .then(({ data }) => {
         console.log(data.message);
         setCart(data.cart);
@@ -78,7 +77,7 @@ const Cart = () => {
 
   const handleEmptyCart = () => {
     axios
-      .get(`${API_CART}/emptyCart/${cart._id}`)
+      .get(`/api/cart/emptyCart/${cart._id}`)
       .then(({ data }) => {
         console.log(data.message);
         setCart(data.cart);
