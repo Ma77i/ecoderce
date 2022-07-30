@@ -42,7 +42,9 @@ const { HOSTNAME, SCHEMA, OPTIONS, DATABASE, USER, PASSWORD } = config.mongoConf
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://ecoderce.herokuapp.com",
+    origin: process.env.NODE_ENV === "production"
+    ? "https://ecoderce.herokuapp.com"
+    : "http://localhost:3000",
     methods: ["GET", "POST"]
   }
 });
