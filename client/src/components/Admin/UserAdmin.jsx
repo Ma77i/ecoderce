@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import axios from 'axios';
+import API from '../utils/api';
 
 
 const Demo = styled('div')(({ theme }) => ({
@@ -23,7 +23,7 @@ const UserAdmin = () => {
   
   // API
   React.useEffect(() => {
-    axios.get(`/api/users`)
+    API.get(`/api/users`)
       .then(({data}) => {
           console.log(data.message);
           setUsers(data.users);
@@ -34,7 +34,7 @@ const UserAdmin = () => {
   console.log("CHECKOUT PASSWORD ENCRYPTED", users);
 
   const handleDelete = (id) => {
-    axios.delete(`/api/users/${id}`)
+    API.delete(`/api/users/${id}`)
       .then(({data}) => {
           console.log(data.message);
           setUsers(data.users);

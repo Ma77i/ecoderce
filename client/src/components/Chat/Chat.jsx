@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import { AuthContext } from "../../Context/AuthContext";
 
 
-// import axios from 'axios';
+// import API from '../utils/api';
 // const API_CHAT = "http://localhost:8080/api/chat";
 
 const socket = io.connect("https://ecoderce.herokuapp.com");
@@ -29,7 +29,7 @@ const Chat = () => {
   }, []);
 
   // React.useEffect(() => {
-  //   axios.get(API_CHAT)
+  //   API.get(API_CHAT)
   //     .then(({res}) => {
   //       console.log(res);
   //       console.log(res.message);

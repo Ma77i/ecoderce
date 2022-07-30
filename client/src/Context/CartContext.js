@@ -22,9 +22,7 @@ export const CartProvider = ({ children }) => {
   // }
   
   // const { user } = useContext(AuthContext);
-  const uId = "62cf1db532cb8b022baa5a48"
-  const userId = localStorage.getItem('user')
-  console.log(userId)
+
 
   const [cart, setCart] = useState();
   const [isLoading, setIsLoading] = useState(true);

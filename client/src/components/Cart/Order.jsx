@@ -1,13 +1,13 @@
 import React from 'react'
 import { AuthContext } from '../../Context/AuthContext';
 import Typography from '@mui/material/Typography';
-import axios from 'axios'
+import API from '../utils/api';
 
 const Order = () => {
   const { auth } = React.useContext(AuthContext);
 
   React.useEffect(() => {
-    axios.post(`/api/orders/${auth.user._id}`, {}, { headers: { Authorization: `Bearer ${auth.token}` } })
+    API.post(`/api/orders/${auth.user._id}`, {}, { headers: { Authorization: `Bearer ${auth.token}` } })
       .then(({data}) => {
         console.log(data.message);
       })

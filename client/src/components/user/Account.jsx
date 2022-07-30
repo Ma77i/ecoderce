@@ -23,7 +23,7 @@ const Account = () => {
       }}
     >
       <Card sx={{ maxWidth: 345 }}>
-        <CardMedia component="img" alt="green iguana" height="140" image={user.avatar} />
+        <CardMedia component="img" alt={user.userName} height="140" image={user.avatar} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {user.firstName} {user.lastName}

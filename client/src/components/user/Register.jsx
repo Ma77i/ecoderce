@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../utils/api';
 
 const Copyright = (props) => {
   return (
@@ -50,7 +50,7 @@ const SignUp = () => {
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();
-    axios.post("/api/sign/register", registerCredentials)
+    API.post("/api/sign/register", registerCredentials)
       .then((res) => {
         const token = res.data;
         setAuth(token)

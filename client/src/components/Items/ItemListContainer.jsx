@@ -4,7 +4,7 @@ import { AuthContext } from "../../Context/AuthContext";
 import Typography from "@mui/material/Typography";
 import ItemList from "./ItemList";
 import Loader from "../utils/Loader";
-import axios from "axios";
+import API from '../utils/api';
 
 
 const ItemListContainer = () => {
@@ -16,7 +16,7 @@ const ItemListContainer = () => {
   // API
   useEffect(() => {
     setIsLoading(true)
-    axios.get(`/api/products`)
+    API.get(`/api/products`)
       .then(({data}) => {
           console.log(data.message);
           setItems(data.products);

@@ -18,8 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { Badge } from "@mui/material";
 
-// import axios from "axios"
-// const API_CART = "http://localhost:8080/api/cart"
+// import API from '../utils/api';
 
 // const pages = ["Store", "Cart"];
 const settings = ["Account", "Admin", "Logout"];
@@ -35,7 +34,7 @@ const NavBar = () => {
   // React.useEffect(() => {
   //   if (user) {
   //     console.log(user)
-  //     axios.get(`/api/cart/currentCart/${user._id}`, {
+  //     API.get(`/api/cart/currentCart/${user._id}`, {
   //       headers: { Authorization: `Bearer ${auth.token}` }
   //     }).then(({ data }) => {
   //       console.log(data.message);
@@ -121,6 +120,14 @@ const NavBar = () => {
                   display: { xs: "block", md: "none" }
                 }}
               >
+                              {auth && (
+                <>
+                  <Button onClick={handleLogout}>Logout</Button>
+                  <Link style={{ textDecoration: "none", color: "white" }} to={`/chat`}>
+                    <Button sx={{ my: 2, color: "white", display: "block" }}>Chat</Button>
+                  </Link>
+                </>
+              )}
                 {/* {pages.map((page) => ( */}
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Link

@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../components/utils/api';
 
 
 export const AuthContext = createContext()
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleSubmitLogin = (e) => {
     e.preventDefault();
-    axios.post(`/api/sign/login`, loginCredentials)
+    API.post(`/api/sign/login`, loginCredentials)
       .then((res) => {
         const token = res.data;
         setAuth(token)
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     console.log("antes")
     e.preventDefault();
     console.log("despues")
-    axios.post(`/api/sign/register`, registerCredentials)
+    API.post(`/api/sign/register`, registerCredentials)
       .then((res) => {
         const token = res.data;
         setAuth(token)
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const handleLogout = () => {
-    axios.get(`/api/sign/logout`)
+    API.get(`/api/sign/logout`)
     setAuth(null)
     navigate("/")
   }

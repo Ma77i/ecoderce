@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import API from '../utils/api';
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
@@ -16,7 +16,7 @@ const ItemDetailContainer = () => {
   useEffect(() => {
     setIsLoading(true)
 
-      axios
+      API
         .get(`/api/products/${param.id}`)
         .then(({data}) => {
           console.log(data.message);

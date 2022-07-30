@@ -8,14 +8,14 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import { AuthContext } from "../../Context/AuthContext";
-import axios from "axios";
+import API from '../utils/api';
 
 const ItemDetail = ({ item }) => {
   const { user, auth } = React.useContext(AuthContext);
   const [cart, setCart] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get(`/api/cart/currentCart/${user._id}`,
+    API.get(`/api/cart/currentCart/${user._id}`,
     {
       headers: {
         Authorization: `Bearer ${auth.token}`
@@ -27,7 +27,7 @@ const ItemDetail = ({ item }) => {
   }, [user._id, auth.token]);
 
   const handleAddToCart = () => {
-    axios.post(`/api/cart/${cart.cartId}/products/${item._id}`)
+    API.post(`/api/cart/${cart.cartId}/products/${item._id}`)
       .then(({data}) => {
         console.log(data.message);
       })

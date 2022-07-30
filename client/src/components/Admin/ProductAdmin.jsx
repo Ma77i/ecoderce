@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import axios from 'axios';
+import API from '../utils/api';
 import { Button } from '@mui/material';
 
 
@@ -25,7 +25,7 @@ const ProductAdmin = () => {
   
   // API
   React.useEffect(() => {
-    axios.get(`/api/products`)
+    API.get(`/api/products`)
       .then(({data}) => {
           console.log(data.message);
           setItems(data.products);
@@ -34,7 +34,7 @@ const ProductAdmin = () => {
     }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`/api/products/${id}`)
+    API.delete(`/api/products/${id}`)
       .then(({data}) => {
           console.log(data.message);
           setItems(data.products);

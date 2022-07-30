@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import API from '../utils/api';
 import { AuthContext } from '../../Context/AuthContext'
 
 const Logout = () => {
@@ -7,7 +7,7 @@ const Logout = () => {
     const navigate = React.useNavigate();
 
     React.useEffect(() => {
-        axios.get(`/api/logout`)
+        API.get(`/api/logout`)
         setAuth(null)
         navigate("/")
     }, [setAuth, navigate])

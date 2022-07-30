@@ -1,5 +1,5 @@
 import * as React from "react";
-import axios from "axios";
+import API from '../utils/api';
 import { useState, useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 // import { CartContext } from "../../Context/CartContext";
@@ -47,7 +47,7 @@ const Cart = () => {
 
   React.useEffect(() => {
     setIsLoading(true);
-    axios
+    API
       .get(`/api/cart/currentCart/${user._id}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`
@@ -64,7 +64,7 @@ const Cart = () => {
   }, [user, auth]);
 
   const handleRemoveFromCart = (itemId) => {
-    axios
+    API
       .delete(`/api/cart/${cart._id}/products/${itemId}`)
       .then(({ data }) => {
         console.log(data.message);
@@ -76,7 +76,7 @@ const Cart = () => {
   };
 
   const handleEmptyCart = () => {
-    axios
+    API
       .get(`/api/cart/emptyCart/${cart._id}`)
       .then(({ data }) => {
         console.log(data.message);
