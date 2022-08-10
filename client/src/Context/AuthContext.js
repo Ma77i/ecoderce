@@ -8,6 +8,7 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
   const [ auth, setAuth ] = useState(null)
   
+  const [ error, setError ] = useState(null)
   const [ user, setUser ] = useState(null)
   const [ loginCredentials, setLoginCredentials ] = useState({
     email: '',
@@ -22,28 +23,38 @@ export const AuthProvider = ({ children }) => {
     password: '',
     confirmPassword: ''
   })
-  const [ error, setError ] = useState(null)
 
   const navigate = useNavigate();
 
-  const handleSubmitLogin = (e) => {
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    API.post(`/api/sign/login`, loginCredentials)
-      .then((res) => {
-        const token = res.data;
-        setAuth(token)
-        setUser(res.data.user)
-        localStorage.setItem('user', res.data)
-        navigate('/store')
-      })
-      .catch((err) => {
-        console.log(err)
-        setError(err.response.data.message)
-      })
+    const res = await API.post(`/api/sign/login`, loginCredentials)
+    if (res.status === 401) {
+      console.log(res)
+      setError(res.data.message)
+    }
+    try {
+      setAuth(res.data)
+      setUser(res.data.user)
+      navigate('/store')
+    } catch (err) {
+      console.log(err)
+      setError(err.res.data.message)
+    }
+      // .then((res) => {
+      //   const token = res.data;
+      //   setAuth(token)
+      //   setUser(res.data.user)
+      //   localStorage.setItem('user', res.data)
+      //   navigate('/store')
+      // })
+      // .catch((err) => {
+      //   console.log(err)
+      //   setError(err.response.data.message)
+      // })
   };
-
-
   console.log(error)
+
 
   const handleChangeLogin = (e) => {
     e.preventDefault();

@@ -32,10 +32,11 @@ function Copyright(props) {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#00897b',
+      main: '#778da9',
     },
     secondary: {
-      main: '#303f9f',
+      main: '#415a77',
+      dark: '#1b263b'
     },
   },
 });

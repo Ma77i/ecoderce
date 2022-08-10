@@ -33,8 +33,18 @@ const ItemListContainer = () => {
   if (!isLoading) {
     return (
       <>
-        <Typography sx={{ m: 2 }} variant="h1" component="div" align="center" gutterBottom>
-          Welcome {user.userName}
+        <Typography variant="h1" component="div" align="center" 
+        sx={{
+          fontFamily: "Helvetica Neue, sans-serif",
+          fontSize: "4rem",
+          fontWeight: "bold",
+          letterSpacing: "0.3rem",
+          color: "#0d1b2a",
+          padding: "1rem",
+          margin: "0"
+        }}
+         gutterBottom>
+          ¡Welcome {user.userName}!
         </Typography>
         <ItemList items={items} isLoading={isLoading}/>
       </>

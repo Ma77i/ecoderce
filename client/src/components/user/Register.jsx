@@ -19,7 +19,7 @@ import API from '../utils/api';
 
 const Copyright = (props) => {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography variant="body2" color="text.secondary.dark" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://www.linkedin.com/in/mattias-silva">
         Matias Silva
@@ -33,10 +33,11 @@ const Copyright = (props) => {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#00897b',
+      main: '#778da9',
     },
     secondary: {
-      main: '#303f9f',
+      main: '#415a77',
+      dark: '#1b263b'
     },
   },
 });
@@ -74,7 +75,7 @@ const SignUp = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">

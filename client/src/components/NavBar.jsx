@@ -62,7 +62,8 @@ const NavBar = () => {
     palette: {
       mode: "dark",
       primary: {
-        main: "#1976d2"
+        main: "#778da9",
+        light: "#778da9",
       }
     }
   });
@@ -72,7 +73,7 @@ const NavBar = () => {
       <AppBar position="sticky" color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1, color: "primary.light" }} />
             <Link className="link" to="/">
               <Typography
                 variant="h6"
@@ -83,7 +84,7 @@ const NavBar = () => {
                   fontFamily: "monospace",
                   fontWeight: 700,
                   letterSpacing: ".3rem",
-                  color: "inherit",
+                  color: "primary.main",
                   textDecoration: "none"
                 }}
               >
@@ -120,18 +121,19 @@ const NavBar = () => {
                   display: { xs: "block", md: "none" }
                 }}
               >
-                              {auth && (
+              {
+                auth && (
                 <>
                   <Button onClick={handleLogout}>Logout</Button>
-                  <Link style={{ textDecoration: "none", color: "white" }} to={`/chat`}>
-                    <Button sx={{ my: 2, color: "white", display: "block" }}>Chat</Button>
+                  <Link style={{ textDecoration: "none", color: "#415a77" }} to={`/chat`}>
+                    <Button sx={{ my: 2, color: "#415a77", display: "block" }}>Chat</Button>
                   </Link>
                 </>
               )}
                 {/* {pages.map((page) => ( */}
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Link
-                      style={{ textDecoration: "none", color: "white" }}
+                      style={{ textDecoration: "none", color: "#415a77" }}
                       to={`/store`}
                     >
                       <Typography textAlign="center">STORE</Typography>

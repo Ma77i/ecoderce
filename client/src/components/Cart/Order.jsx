@@ -15,7 +15,22 @@ const Order = () => {
   }, [auth]);
 
   return (
-    <Typography variant="h2" component="div" align="center" gutterBottom>
+    <Typography 
+      variant="h2" 
+      component="div"
+      align="center"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "80%",
+        margin: "0 auto",
+        letterSpacing: "0.5rem",
+        color: "#252525",
+        padding: "1rem"
+      }} 
+      gutterBottom>
       Orden realizada con exito, se ha enviado un mail a su casilla de correo, muchas gracias por su compra {auth.user.firstName}.
     </Typography>
   )

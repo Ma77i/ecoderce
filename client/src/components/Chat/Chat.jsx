@@ -7,11 +7,11 @@ import { Box } from "@mui/material";
 import io from "socket.io-client";
 import { AuthContext } from "../../Context/AuthContext";
 
-
 // import API from '../utils/api';
 // const API_CHAT = "http://localhost:8080/api/chat";
 
-const socket = io.connect("https://ecoderce.herokuapp.com");
+// const socket = io.connect("https://ecoderce.herokuapp.com");
+const socket = io.connect("http://localhost:8080");
 
 const Chat = () => {
   const { user } = React.useContext(AuthContext);
@@ -45,7 +45,6 @@ const Chat = () => {
 
   return (
     <>
-
       <Box
         sx={{
           display: "flex",
@@ -66,9 +65,21 @@ const Chat = () => {
             position: "relative"
           }}
         >
-                <Typography variant="h2" component="h2" align="center" gutterBottom>
-        CHAT
-      </Typography>
+          <Typography
+            variant="h2"
+            component="h2"
+            align="center"
+            sx={{
+              fontFamily: "Helvetica Neue, sans-serif",
+              fontSize: "4rem",
+              fontWeight: "bold",
+              letterSpacing: "0.3rem",
+              color: "#0d1b2a",
+            }}
+            gutterBottom
+          >
+            CHAT
+          </Typography>
           <Paper
             sx={{
               width: "calc( 100% - 20px )",

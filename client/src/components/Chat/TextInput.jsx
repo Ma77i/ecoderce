@@ -6,8 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import { AuthContext } from "../../Context/AuthContext";
 import io from "socket.io-client";
 
-const socket = io.connect("https://ecoderce.herokuapp.com");
-
+// const socket = io.connect("https://ecoderce.herokuapp.com");
+const socket = io.connect("http://localhost:8080");
 
 const TextInput = () => {
   const { user } = React.useContext(AuthContext);

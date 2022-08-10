@@ -5,8 +5,26 @@ const logger = require("../log");
 module.exports = {
   
   login: (req, res) => {
+    console.log(req.flash)
 
+    // const { email, password } = req.body;
+    // console.log(email);
+    // console.log(req.user.email);
+
+    // if (email !== req.user.email) {
+    //   return res.status(400).json({
+    //     message: "Invalid email",
+    //   });
+    // }
+
+    
     try {
+      if (!req.body.email || !req.body.password) {
+        return res.status(400).json({
+          status: "ERROR",
+          message: "Email and password are required",
+        });
+      }
       const token = generateToken(req.user);
       res.clearCookie("token");
       res.cookie("token", token);
@@ -47,7 +65,8 @@ module.exports = {
   logout: (req, res) => {
     req.logout();
     res.clearCookie("token");
-    res.status(200).send("Logout");
+    logger.info(`User logged out`);
+    res.status(200).json({ message: "Logout successful" });
   },
 
   // // upload image

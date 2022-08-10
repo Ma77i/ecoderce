@@ -1,8 +1,8 @@
-# POST http://localhost:8080/api/sign/login
-POST http://localhost:8080/login
+POST http://localhost:8080/api/sign/login
+# POST http://localhost:8080/login
 Content-Type: application/json
 
 {
-    "email": "maxkvain@gmail.com",
+    "email": "maxkvin@gmail.com",
     "password": "s"
 }

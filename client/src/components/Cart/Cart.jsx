@@ -19,11 +19,13 @@ import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    backgroundColor: "#0d1b2a",
+    color: "#e0e1dd"
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14
+    fontSize: 14,
+    backgroundColor: "#e0e1dd",
+    color: "#0d1b2a"
   }
 }));
 
@@ -94,12 +96,36 @@ const Cart = () => {
   if (!isLoading) {
     return (
       <TableContainer component="div" m={5} align="center">
-        <Typography variant="h1" component="div" align="center" gutterBottom>
+        <Typography variant="h1" component="div" align="center"
+        sx={{
+          fontFamily: "Helvetica Neue, sans-serif",
+          fontSize: "4rem",
+          fontWeight: "bold",
+          letterSpacing: "0.3rem",
+          color: "#0d1b2a",
+          padding: "1rem",
+          margin: "0"
+        }}
+          gutterBottom>
           CART
         </Typography>
         {cart.products.length === 0 ? (
-          <Typography variant="h2" component="div" align="center" gutterBottom>
-            Your cart is empty, please add items to your cart.
+          <Typography variant="h2" component="div" align="center"
+          sx={{
+            
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "60%",
+            margin: "0 auto",
+            letterSpacing: "0.2rem",
+            lineHeight: "6rem",
+            color: "#252525",
+            padding: "1rem"
+          }}
+           gutterBottom>
+            ¡YOUR CART IS EMPTY! Please add items to your cart.
           </Typography>
         ) : (
           <>
@@ -134,7 +160,7 @@ const Cart = () => {
                   </StyledTableRow>
                 ))}
                 <TableRow align="right">
-                  <TableCell colSpan={2}>Total</TableCell>
+                  <TableCell colSpan={2} fontWeight="bold">Total</TableCell>
                   <TableCell align="right">$ {cart.products.length > 0
                     ? cart.products.reduce((tot, p) => tot + p.price * p.quantity, 0)
                     : 0}
@@ -144,15 +170,26 @@ const Cart = () => {
             </Table>
             <Button
               variant="contained"
-              color="primary"
-              align="right"
-              m={2}
+              sx={{
+                backgroundColor: "#0d1b2a", 
+                color:"#e0e1dd",
+                padding: "0 4rem",
+              }}
               onClick={handleEmptyCart}
             >
               Empty Cart
             </Button>
-            <Button variant="contained" color="success" align="right" m={2}>
-              <Link style={{ textDecoration: "none", color: "white" }} to="/order">
+            <Button 
+              variant="contained"
+              sx={{
+                display: "flex",
+                justifyContent: "right",
+                backgroundColor: "#0d1b2a", 
+                color:"#e0e1dd",
+                padding: "0.2rem 4rem",
+              }}
+              >
+              <Link style={{ textDecoration: "none", color: "inherit" }} to="/order">
                 Checkout
               </Link>
             </Button>

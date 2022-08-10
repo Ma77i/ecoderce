@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
 
   if (!verifyToken(tokenAuth)) {
     return res.status(401).json({
-      message: "Unauthorized",
+      message: "Unauthorizeddd",
     });
   }
   logger.info("Token successfully verified");
