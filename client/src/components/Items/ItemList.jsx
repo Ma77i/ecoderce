@@ -22,7 +22,7 @@ const ItemList = ({ items }) => {
         alignItems="center"
       >
         {items.map((item) => (
-          <Grid item xs={3}>
+          <Grid item xs={12} md={3}>
             <Item key={item._id} item={item} />
           </Grid>
         ))}

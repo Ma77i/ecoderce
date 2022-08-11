@@ -13,12 +13,14 @@ const Home = () => {
       <Typography
         variant="h1"
         component="div"
-        align="center"
         sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           fontFamily: "Helvetica Neue, sans-serif",
-          fontSize: "8rem",
+          fontSize: {xs: "3rem", md: "8rem"},
           fontWeight: "bold",
-          letterSpacing: "1rem",
+          letterSpacing: { xs: "0.2rem", md: "1rem"},
           color: "#0d1b2a",
           padding: "1rem",
           margin: "0"

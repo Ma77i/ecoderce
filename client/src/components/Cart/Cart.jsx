@@ -112,7 +112,6 @@ const Cart = () => {
         {cart.products.length === 0 ? (
           <Typography variant="h2" component="div" align="center"
           sx={{
-            
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -120,12 +119,12 @@ const Cart = () => {
             width: "60%",
             margin: "0 auto",
             letterSpacing: "0.2rem",
-            lineHeight: "6rem",
+            lineHeight: {xs: "none", md: "6rem"},
             color: "#252525",
             padding: "1rem"
           }}
            gutterBottom>
-            ¡YOUR CART IS EMPTY! Please add items to your cart.
+            ¡YOUR CART IS EMPTY!
           </Typography>
         ) : (
           <>
