@@ -8,22 +8,6 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
 
-  // const [ cart, setCart ] = useState([]);
-  // setCart({
-  //   productos: [{
-  //     id: 1,
-  //     title: 'Producto 1',
-  //     price: 100,
-  //   }],
-  // })
-
-  // const values = {
-  //   cart
-  // }
-  
-  // const { user } = useContext(AuthContext);
-
-
   const [cart, setCart] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [total, setTotal] = useState(0);

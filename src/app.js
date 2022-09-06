@@ -87,14 +87,6 @@ app.use(cors(corsCallback));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// HANDLEBARS
-app.use("/static", express.static(path.join(__dirname, "../public")));
-
-// REACT
-if (process.env.NODE_ENV === "production") {
-  app.use(cors());
-  app.use(express.static(path.join(__dirname, "../client/build")))
-}
 
 // cookie session
 app.use(flash());
@@ -104,7 +96,7 @@ app.use(
     secret: "secret",
     resave: true,
     saveUninitialized: true,
-
+    
     store: new MongoStore({
       mongoUrl: `${SCHEMA}://${USER}:${PASSWORD}@${HOSTNAME}/${DATABASE}?${OPTIONS}`,
       ttl: 10 * 60,
@@ -112,7 +104,16 @@ app.use(
       autoRemove: "native"
     })
   })
-);
+  );
+  
+  // HANDLEBARS
+  app.use("/static", express.static(path.join(__dirname, "../public")));
+  
+  // REACT
+  if (process.env.NODE_ENV === "production") {
+    app.use(cors());
+    app.use(express.static(path.join(__dirname, "../client/build")))
+  }
 
 // passport
 app.use(passport.initialize());

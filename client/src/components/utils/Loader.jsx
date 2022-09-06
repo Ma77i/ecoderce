@@ -1,26 +1,16 @@
-import { useState } from "react";
-import { css } from "@emotion/react";
-import ClipLoader from "react-spinners/ClipLoader";
+import * as React from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
-// Can be a string as well. Need to ensure each key-value pair ends with ;
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
-
-function Loader() {
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#ffffff");
+export default function SimpleBackdrop() {
 
   return (
-    <div className="sweet-loading">
-      <button onClick={() => setLoading(!loading)}>Toggle Loader</button>
-      <input value={color} onChange={(input) => setColor(input.target.value)} placeholder="Color of the loader" />
-
-      <ClipLoader color={color} loading={loading} css={override} size={150} />
+    <div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }
-
-export default Loader;
