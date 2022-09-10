@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import Typography from "@mui/material/Typography";
-import ItemList from "./ItemList";
+import ItemList from "../Items/ItemList";
 import Loader from "../utils/Loader";
 import API from '../utils/api';
 

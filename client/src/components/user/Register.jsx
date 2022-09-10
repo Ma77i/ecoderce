@@ -17,6 +17,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 
+import { useDispatch } from "react-redux";
+
 const Copyright = (props) => {
   return (
     <Typography variant="body2" color="text.secondary.dark" align="center" {...props}>
@@ -42,25 +44,34 @@ const theme = createTheme({
   },
 });
 
-const SignUp = () => {
 
+const SignUp = () => {
+  
+  const dispatch = useDispatch()
   // const { registerCredentials, handleSubmitRegister, handleChangeRegister } = React.useContext(AuthContext);
   const navigate = useNavigate();
   const { registerCredentials, handleChangeRegister, setAuth, setUser } = React.useContext(AuthContext);
 
 
+  // const handleSubmitRegister = (e) => {
+  //   e.preventDefault();
+  //   API.post("/api/sign/register", registerCredentials)
+  //     .then((res) => {
+  //       const token = res.data;
+  //       setAuth(token)
+  //       setUser(res.data.user)
+  //       navigate('/store')
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }
+
   const handleSubmitRegister = (e) => {
-    e.preventDefault();
-    API.post("/api/sign/register", registerCredentials)
-      .then((res) => {
-        const token = res.data;
-        setAuth(token)
-        setUser(res.data.user)
-        navigate('/store')
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    e.preventDefault()
+    dispatch(registerCredentials)
+    navigate("/store")
+        setUser(registerCredentials)
   }
 
   return (
