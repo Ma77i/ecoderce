@@ -1,17 +1,17 @@
 import React from "react";
-import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ children }) => {
   
   const navigate = useNavigate();
-  const { auth } = React.useContext(AuthContext);
+  const authState = useSelector(state=>state.auth)
   
   React.useEffect(() => {
-    if (!auth) {
+    if (!authState) {
       navigate("/login");
     }
-  }, [auth, navigate]);
+  }, [authState, navigate]);
 
   return children;
 };

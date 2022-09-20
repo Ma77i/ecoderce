@@ -1,4 +1,5 @@
-import * as React from 'react';
+import API from '../../utils/api';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -11,25 +12,19 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-
-import API from '../utils/api';
-import { Button } from '@mui/material';
-
-
+import Button from "@mui/material/Button";
 
 
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
+
 const OrderAdmin = () => {
-  const [orders, setOrders] = React.useState([]);
+  const [orders, setOrders] = useState([]);
 
-
-  
   // API
-  React.useEffect(() => {
+  useEffect(() => {
     API.get(`/api/orders`)
       .then(({data}) => {
           console.log(data.message);

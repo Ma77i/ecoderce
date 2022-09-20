@@ -7,24 +7,25 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import { AuthContext } from "../../Context/AuthContext";
-import API from '../utils/api';
+import API from '../../utils/api';
+import { useSelector } from "react-redux";
 
 const ItemDetail = ({ item }) => {
-  const { user, auth } = React.useContext(AuthContext);
+  const userState = useSelector((state) => state.user);
+  const authState = useSelector((state) => state.auth);
   const [cart, setCart] = React.useState([]);
 
   React.useEffect(() => {
-    API.get(`/api/cart/currentCart/${user._id}`,
+    API.get(`/api/cart/currentCart/${userState._id}`,
     {
       headers: {
-        Authorization: `Bearer ${auth.token}`
+        Authorization: `Bearer ${authState.token}`
       }
     }).then(({data}) => {
       console.log(data.message);
       setCart(data);
     });
-  }, [user._id, auth.token]);
+  }, [userState._id, authState.token]);
 
   const handleAddToCart = () => {
     API.post(`/api/cart/${cart.cartId}/products/${item._id}`)

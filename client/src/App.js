@@ -1,15 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { CartProvider } from "./Context/CartContext";
 import Home from "./components/Home/Home";
-import NavBar from "./components/NavBar";
-import SignIn from "./components/user/Login";
-import SignUp from "./components/user/Register";
-import Logout from "./components/user/Logout";
-import Cart from "./components/Cart/Cart";
+import NavBar from "./components/NavBar/NavBar";
 import ItemListContainer from "./components/Containers/ItemListContainer";
 import ItemDetailContainer from "./components/Containers/ItemDetailContainer";
-import ProtectedRoute from "./utils/ProtectedRoute";
-import { AuthProvider } from "./Context/AuthContext";
+import SignContainer from "./components/Containers/SignContainer";
+import Logout from "./components/Sign/Logout";
+import Cart from "./components/Cart/Cart";
+import ProtectedRoute from "./components/utils/ProtectedRoute";
 import Order from "./components/Cart/Order";
 import Account from "./components/user/Account";
 import AdminContainer from "./components/Admin/AdminContainer";
@@ -21,22 +20,16 @@ import Chat from "./components/Chat/Chat";
 
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import SignContainer from "./components/Sign/SignContainer";
-
-// import { CartProvider } from "./Context/CartContext";
 
 const App = () => {
   return (
     <Router>
-      <AuthProvider>
+      <Provider store={store}>
         {/* <CartProvider> */}
-        <Provider store={store}>
           <NavBar />
           <Routes>
             <Route path="*" element={<Home />} />
-            <Route path="/log" element={<SignIn />} />
             <Route path="/:sign" element={<SignContainer />} />
-            <Route path="/register" element={<SignUp />} />
 
             <Route
               path="/logout"
@@ -128,9 +121,8 @@ const App = () => {
               }
             />
           </Routes>
-        </Provider>
         {/* </CartProvider> */}
-      </AuthProvider>
+      </Provider>
     </Router>
   );
 };

@@ -1,6 +1,4 @@
-import * as React from "react";
-import { useContext } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,31 +15,16 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { Badge } from "@mui/material";
-
-// import API from '../utils/api';
+import Logout from "../Sign/Logout";
+import { useSelector } from "react-redux";
 
 // const pages = ["Store", "Cart"];
 const settings = ["Account", "Admin", "Logout"];
 
-
 const NavBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  // const [ items, setItems ] = React.useState([]);
-
-  const { auth, handleLogout } = useContext(AuthContext);
-
-  // React.useEffect(() => {
-  //   if (user) {
-  //     console.log(user)
-  //     API.get(`/api/cart/currentCart/${user._id}`, {
-  //       headers: { Authorization: `Bearer ${auth.token}` }
-  //     }).then(({ data }) => {
-  //       console.log(data.message);
-  //       setItems(data.cart.products);
-  //     }).catch(err => { console.log(err); });
-  //   } 
-  // }, [auth, user ])
+  const authState = useSelector((state) => state.auth);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -63,7 +46,7 @@ const NavBar = () => {
       mode: "dark",
       primary: {
         main: "#778da9",
-        light: "#778da9",
+        light: "#778da9"
       }
     }
   });
@@ -73,7 +56,9 @@ const NavBar = () => {
       <AppBar position="sticky" color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1, color: "primary.light" }} />
+            <AdbIcon
+              sx={{ display: { xs: "none", md: "flex" }, mr: 1, color: "primary.light" }}
+            />
             <Link className="link" to="/">
               <Typography
                 variant="h6"
@@ -103,34 +88,32 @@ const NavBar = () => {
               >
                 <MenuIcon />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left"
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left"
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" }
-                }}
-              >
-              {
-                auth && (
-                <>
-                  <Button onClick={handleLogout}>Logout</Button>
+              {authState && (
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left"
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" }
+                  }}
+                >
+                  <Logout />
                   <Link style={{ textDecoration: "none", color: "#415a77" }} to={`/chat`}>
-                    <Button sx={{ my: 2, color: "#415a77", display: "block" }}>Chat</Button>
+                    <Button sx={{ my: 2, color: "#415a77", display: "block" }}>
+                      Chat
+                    </Button>
                   </Link>
-                </>
-              )}
-                {/* {pages.map((page) => ( */}
+                  {/* {pages.map((page) => ( */}
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Link
                       style={{ textDecoration: "none", color: "#415a77" }}
@@ -140,16 +123,18 @@ const NavBar = () => {
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
-                  <Badge badgeContent={1} color="error">
-                    <Link to={`cart`}
-                      style={{ textDecoration: "none", color: "white" }}
-                    >
+                    <Badge badgeContent={1} color="error">
+                      <Link
+                        to={`cart`}
+                        style={{ textDecoration: "none", color: "white" }}
+                      >
                         <Typography textAlign="center">CART</Typography>
-                    </Link>
-                      </Badge>
-                </MenuItem>
-                {/* ))} */}
-              </Menu>
+                      </Link>
+                    </Badge>
+                  </MenuItem>
+                  {/* ))} */}
+                </Menu>
+              )}
             </Box>
 
             {/* MOBILE */}
@@ -172,49 +157,42 @@ const NavBar = () => {
             >
               ECODERCE mobile
             </Typography>
+              {authState && (
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {auth && (
-                <>
-                  <Button onClick={handleLogout}>Logout</Button>
+
+                  <Logout />
                   <Link style={{ textDecoration: "none", color: "white" }} to={`/chat`}>
                     <Button sx={{ my: 2, color: "white", display: "block" }}>Chat</Button>
                   </Link>
-                </>
-              )}
 
               {/* {pages.map((page) => ( */}
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`/store`}
+              <Link style={{ textDecoration: "none", color: "white" }} to={`/store`}>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  <Button
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    store
-                  </Button>
-                </Link>
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`/cart`}
+                  store
+                </Button>
+              </Link>
+              <Link style={{ textDecoration: "none", color: "white" }} to={`/cart`}>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  <Button
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    >
-                  <Badge badgeContent={ 0 } color="error">
+                  <Badge badgeContent={0} color="error">
                     cart
-                    </Badge>
-                  </Button>
-                </Link>
+                  </Badge>
+                </Button>
+              </Link>
               {/* ))} */}
             </Box>
+              )}
 
-            {auth && (
+            {authState && (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="picture" src={auth.user.avatar} />
+                    <Avatar alt="picture" src={authState.user.avatar} />
                   </IconButton>
                 </Tooltip>
 
@@ -234,15 +212,16 @@ const NavBar = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Link
-                        style={{ textDecoration: "none", color: "white" }}
-                        to={`/${setting.toLowerCase()}`}
-                      >
+                  {settings.map((setting, index) => (
+                    <Link
+                      style={{ textDecoration: "none", color: "white" }}
+                      to={`/${setting.toLowerCase()}`}
+                      key={index}
+                    >
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">{setting}</Typography>
-                      </Link>
-                    </MenuItem>
+                      </MenuItem>
+                    </Link>
                   ))}
                 </Menu>
               </Box>

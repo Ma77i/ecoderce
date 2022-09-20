@@ -14,15 +14,9 @@ const ItemList = ({ items }) => {
   
   return (
     <>
-      <Grid
-        container
-        spacing={1}
-        direction="row"
-        justify="center"
-        alignItems="center"
-      >
-        {items.map((item) => (
-          <Grid item xs={12} md={3}>
+      <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+        {items.map((item, index) => (
+          <Grid key={index}item xs={12} md={3}>
             <Item key={item._id} item={item} />
           </Grid>
         ))}

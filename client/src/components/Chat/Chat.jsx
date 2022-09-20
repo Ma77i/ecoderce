@@ -5,20 +5,18 @@ import Message from "./Message";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import io from "socket.io-client";
-import { AuthContext } from "../../Context/AuthContext";
+import { useSelector } from "react-redux";
 
-// import API from '../utils/api';
-// const API_CHAT = "http://localhost:8080/api/chat";
 
 const socket = io.connect("https://ecoderce.herokuapp.com");
 // const socket = io.connect("http://localhost:8080");
 
 const Chat = () => {
-  const { user } = React.useContext(AuthContext);
+  const userState = useSelector(state=>state.user)
   const [messagesList, setMessagesList] = React.useState([]);
 
-  if (user) {
-    socket.emit("join_chat", user.userName);
+  if (userState) {
+    socket.emit("join_chat", userState.userName);
   }
 
   React.useEffect(() => {

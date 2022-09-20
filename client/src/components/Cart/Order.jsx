@@ -1,18 +1,20 @@
 import React from 'react'
-import { AuthContext } from '../../Context/AuthContext';
 import Typography from '@mui/material/Typography';
-import API from '../utils/api';
+import API from '../../utils/api';
+import { useSelector } from 'react-redux';
 
 const Order = () => {
-  const { auth } = React.useContext(AuthContext);
+  const authState = useSelector(state=>state.auth)
+  const userState = useSelector(state=>state.user)
+
 
   React.useEffect(() => {
-    API.post(`/api/orders/${auth.user._id}`, {}, { headers: { Authorization: `Bearer ${auth.token}` } })
+    API.post(`/api/orders/${userState._id}`, {}, { headers: { Authorization: `Bearer ${authState.token}` } })
       .then(({data}) => {
         console.log(data.message);
       })
       .catch((err) => console.log("Error getting orders", err));
-  }, [auth]);
+  }, [authState, userState]);
 
   return (
     <Typography 
@@ -31,7 +33,7 @@ const Order = () => {
         padding: "1rem"
       }} 
       gutterBottom>
-      Orden realizada con exito, se ha enviado un mail a su casilla de correo, muchas gracias por su compra {auth.user.firstName}.
+      Orden realizada con exito, se ha enviado un mail a su casilla de correo, muchas gracias por su compra {userState.firstName}.
     </Typography>
   )
 }

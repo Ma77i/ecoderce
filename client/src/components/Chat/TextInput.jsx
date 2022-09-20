@@ -1,23 +1,23 @@
-import React from "react";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import { AuthContext } from "../../Context/AuthContext";
 import io from "socket.io-client";
 
 const socket = io.connect("https://ecoderce.herokuapp.com");
 // const socket = io.connect("http://localhost:8080");
 
 const TextInput = () => {
-  const { user } = React.useContext(AuthContext);
-  const [textCredentials, setTextCredentials] = React.useState("");
+  const userState = useSelector(state=>state.user)
+  const [textCredentials, setTextCredentials] = useState("");
 
   const handleSendText = async (e) => {
     e.preventDefault();
     if (textCredentials !== "") {
       const messageData = {
-        author: user.userName,
+        author: userState.userName,
         text: textCredentials,
         date: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
       };

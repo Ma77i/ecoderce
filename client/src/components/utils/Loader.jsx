@@ -1,16 +1,20 @@
-import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Box } from "@mui/material";
+import PuffLoader from "react-spinners/PuffLoader"
+
 
 export default function SimpleBackdrop() {
 
   return (
-    <div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: 10
+      }}
+    >
+      <PuffLoader size={250} />;
+    </Box>
   );
 }

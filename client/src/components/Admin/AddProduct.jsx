@@ -9,7 +9,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import API from '../utils/api';
+import API from '../../utils/api';
 
 
 const theme = createTheme({

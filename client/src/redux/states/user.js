@@ -1,9 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const UserEmptyState = {
-  message: "",
-  user: {}
-};
+export const UserEmptyState = [];
 
 export const userSlice = createSlice({
   name: "user",
@@ -11,10 +8,10 @@ export const userSlice = createSlice({
   reducers: {
     createUser: (state, action) => action.payload,
     modifyUser: (state, action) => ({ ...state, ...action.payload }),
-    resetUsers: () => UserEmptyState,
-  },
+    resetUser: () => UserEmptyState
+  }
 });
 
-export const { createUser, showUsers, modifyUser, resetUsers } = userSlice.actions;
+export const { createUser, modifyUser, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

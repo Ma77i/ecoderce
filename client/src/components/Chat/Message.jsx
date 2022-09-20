@@ -1,12 +1,12 @@
 import React from "react";
 // import Avatar from "@mui/material/Avatar";
 import { Box, Typography } from "@mui/material";
-import { AuthContext } from "../../Context/AuthContext";
+import { useSelector } from "react-redux";
 
 
 
 const Message = ({ messageContent }) => {
-  const { user } = React.useContext(AuthContext);
+  const userState = useSelector(state=>state.user)
 
   return (
     <>
@@ -15,20 +15,20 @@ const Message = ({ messageContent }) => {
           sx={{
             display: "flex",
             padding: "5px",
-            ...(message.author === user.userName && {
+            ...(message.author === userState.userName && {
               justifyContent: "flex-end",
             }),
-            ...(message.author !== user.userName && {
+            ...(message.author !== userState.userName && {
               justifyContent: "flex-start"
             }),
           }}
         >
           <Box
             sx={{
-              ...(message.author === user.userName && {
+              ...(message.author === userState.userName && {
                 backgroundColor: "transparent",
               }),
-              ...(message.author !== user.userName && {
+              ...(message.author !== userState.userName && {
                 backgroundColor: "#34B7F1"
               }),
               position: "relative",

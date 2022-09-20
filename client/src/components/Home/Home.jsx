@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { AuthContext } from "../../Context/AuthContext";
+import { useSelector } from "react-redux";
+
 
 const Home = () => {
-  const { auth } = React.useContext(AuthContext);
-
+  const authState = useSelector(state=>state.auth)
+  
   return (
     <>
       <Typography
@@ -18,9 +19,9 @@ const Home = () => {
           justifyContent: "center",
           alignItems: "center",
           fontFamily: "Helvetica Neue, sans-serif",
-          fontSize: {xs: "3rem", md: "8rem"},
+          fontSize: { xs: "3rem", md: "8rem" },
           fontWeight: "bold",
-          letterSpacing: { xs: "0.2rem", md: "1rem"},
+          letterSpacing: { xs: "0.2rem", md: "1rem" },
           color: "#0d1b2a",
           padding: "1rem",
           margin: "0"
@@ -46,9 +47,9 @@ const Home = () => {
         }}
         gutterBottom
       >
-        Welcome to the best ecommerce site in the world
+        Welcome to the best ecommerce site in the world.
       </Typography>
-      {!auth && (
+      {!authState && (
         <Box
           sx={{
             display: "flex",
@@ -56,34 +57,36 @@ const Home = () => {
             alignItems: "center",
             justifyContent: "center",
             padding: "1rem",
-            margin: "1rem",
-          }}>
-          <Button 
-            variant="contained"
-            sx={{
-              backgroundColor: "#415a77",
-              color: "#e0e1dd",
-              fontSize: "1.3rem",
-              padding: "1rem 4rem",
-            }}>
-            <Link style={{ textDecoration: "none" , color: "inherit" }} to="/login">
-              Sign In
-            </Link>
-          </Button>
-          <Button 
-            variant="contained"
-            sx={{
-              marginLeft: "1rem",
-              backgroundColor: "#415a77",
-              color: "#e0e1dd",
-              fontSize: "1.3rem",
-              padding: "1rem 4rem",
-            }}
+            margin: "1rem"
+          }}
+        >
+          <Link style={{ textDecoration: "none", color: "inherit" }} to="/login">
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#415a77",
+                color: "#e0e1dd",
+                fontSize: "1.3rem",
+                padding: "1rem 4rem"
+              }}
             >
-            <Link style={{ textDecoration: "none" , color: "inherit" }} to="/register">
+              Sign In
+            </Button>
+          </Link>
+          <Link style={{ textDecoration: "none", color: "inherit" }} to="/register">
+            <Button
+              variant="contained"
+              sx={{
+                marginLeft: "1rem",
+                backgroundColor: "#415a77",
+                color: "#e0e1dd",
+                fontSize: "1.3rem",
+                padding: "1rem 4rem"
+              }}
+            >
               Sign Up
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </Box>
       )}
     </>

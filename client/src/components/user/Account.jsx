@@ -1,17 +1,15 @@
-import * as React from "react";
+import { useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-// import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-// import { Link } from "react-router-dom";
 
-import { AuthContext } from "../../Context/AuthContext";
 
 const Account = () => {
-  const { user } = React.useContext(AuthContext);
+  const userState = useSelector(state=>state.user)
+
   return (
     <Box
       sx={{
@@ -23,19 +21,19 @@ const Account = () => {
       }}
     >
       <Card sx={{ maxWidth: 345 }}>
-        <CardMedia component="img" alt={user.userName} height="140" image={user.avatar} />
+        <CardMedia component="img" alt={userState.userName} height="140" image={userState.avatar} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {user.firstName} {user.lastName}
+            {userState.firstName} {userState.lastName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {user.userName}
+            {userState.userName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {user.email}
+            {userState.email}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {user.phone}
+            {userState.phone}
           </Typography>
         </CardContent>
         <CardActions></CardActions>

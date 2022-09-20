@@ -1,5 +1,5 @@
 import React from "react";
-import API from '../utils/api';
+import API from '../../utils/api';
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ItemDetail from "../Items/ItemDetail";
