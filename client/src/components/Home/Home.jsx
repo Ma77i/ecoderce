@@ -3,26 +3,23 @@ import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { useSelector } from "react-redux";
 
 
 const Home = () => {
-  const authState = useSelector(state=>state.auth)
   
   return (
     <>
       <Typography
         variant="h1"
         component="div"
+        color="primary"
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          fontFamily: "Helvetica Neue, sans-serif",
-          fontSize: { xs: "3rem", md: "8rem" },
           fontWeight: "bold",
           letterSpacing: { xs: "0.2rem", md: "1rem" },
-          color: "#0d1b2a",
+          fontSize: { xs: "3rem", md: "8rem" },
           padding: "1rem",
           margin: "0"
         }}
@@ -34,6 +31,7 @@ const Home = () => {
         variant="h4"
         component="div"
         align="center"
+        color="primary"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -42,53 +40,36 @@ const Home = () => {
           width: "60%",
           margin: "0 auto",
           letterSpacing: "0.5rem",
-          color: "#252525",
           padding: "1rem"
         }}
         gutterBottom
       >
         Welcome to the best ecommerce site in the world.
       </Typography>
-      {!authState && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "1rem",
-            margin: "1rem"
-          }}
-        >
-          <Link style={{ textDecoration: "none", color: "inherit" }} to="/login">
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#415a77",
-                color: "#e0e1dd",
-                fontSize: "1.3rem",
-                padding: "1rem 4rem"
-              }}
-            >
-              Sign In
-            </Button>
-          </Link>
-          <Link style={{ textDecoration: "none", color: "inherit" }} to="/register">
-            <Button
-              variant="contained"
-              sx={{
-                marginLeft: "1rem",
-                backgroundColor: "#415a77",
-                color: "#e0e1dd",
-                fontSize: "1.3rem",
-                padding: "1rem 4rem"
-              }}
-            >
-              Sign Up
-            </Button>
-          </Link>
-        </Box>
-      )}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "1rem",
+          margin: "1rem"
+        }}
+      >
+        <Link style={{ textDecoration: "none", color: "inherit" }} to="/store">
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "primary",
+              color: "info",
+              fontSize: "1.3rem",
+              padding: "1rem 4rem"
+            }}
+          >
+            STORE
+          </Button>
+        </Link>
+      </Box>
     </>
   );
 };

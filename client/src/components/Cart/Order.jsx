@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
-import API from '../../utils/api';
+import API from '../../utilities/api';
 import { useSelector } from 'react-redux';
 
 const Order = () => {

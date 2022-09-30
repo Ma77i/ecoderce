@@ -24,12 +24,13 @@
     "redux": "^4.2.0",
     "socket.io-client": "^4.5.1",
     "styled-components": "^5.3.5",
+    "sweetalert2": "^11.4.33",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "dev": ""
+    "dev": "npm start && cd.. npm run dev"
   },
   "eslintConfig": {
     "extends": [

@@ -68,7 +68,6 @@ const Chat = () => {
             component="h2"
             align="center"
             sx={{
-              fontFamily: "Helvetica Neue, sans-serif",
               fontSize: "4rem",
               fontWeight: "bold",
               letterSpacing: "0.3rem",

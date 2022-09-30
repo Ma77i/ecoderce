@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ children }) => {
@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }, [authState, navigate]);
 
-  return children;
+  return children ? children : <Outlet />;
 };
 
 export default ProtectedRoute;

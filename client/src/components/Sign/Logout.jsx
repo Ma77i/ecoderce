@@ -1,7 +1,7 @@
-import API from "../../utils/api";
-import { Button } from "@mui/material";
+import API from "../../utilities/api";
+import { Button, MenuItem, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { resetAuth } from "../../redux/states/auth/authSlice";
 import { resetUser } from "../../redux/states/user";
 
@@ -16,7 +16,13 @@ const Logout = () => {
     navigate("/");
   };
 
-  return <Button onClick={handleLogout}>Logout</Button>;
+  return (
+    <Button onClick={handleLogout}>
+      <MenuItem >
+        <Typography textAlign="center">Logout</Typography>
+      </MenuItem>
+    </Button>
+  );
 };
 
 export default Logout;

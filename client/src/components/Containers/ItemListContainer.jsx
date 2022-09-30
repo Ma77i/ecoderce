@@ -2,14 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import ItemList from "../Items/ItemList";
-import API from "../../utils/api";
+import API from "../../utilities/api";
 import { useSelector } from "react-redux";
+import { selectorUser } from "../../redux/states/user"
 import Loader from "../utils/Loader";
 
 const ItemListContainer = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const userState = useSelector((store) => store.user);
+  const userState = useSelector(selectorUser);
 
   console.log(userState);
 
@@ -35,8 +36,7 @@ const ItemListContainer = () => {
           component="div"
           align="center"
           sx={{
-            fontFamily: "Helvetica Neue, sans-serif",
-            fontSize: "4rem",
+            fontSize: { xs: "2rem", md: "4rem" },
             fontWeight: "bold",
             letterSpacing: "0.3rem",
             color: "#0d1b2a",
@@ -50,7 +50,6 @@ const ItemListContainer = () => {
         <ItemList items={items} />
       </>
     );
-    // return <ItemList items={items} isLoading={isLoading} />
   }
 };
 

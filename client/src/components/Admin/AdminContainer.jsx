@@ -19,7 +19,6 @@ const lightTheme = createTheme({ palette: { mode: "light" } });
 const pages = ["Users", "Orders", "Products"];
 
 const AdminContainer = () => {
-  // const { user } = React.useContext(AuthContext);
 
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">

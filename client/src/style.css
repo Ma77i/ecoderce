@@ -1,6 +1,10 @@
-body {
+/* body {
     background: rgb(147,165,206);
     background: linear-gradient(90deg, rgba(147,165,206,1) 0%, rgba(184,198,228,1) 0%, rgba(228,238,233,1) 100%);
+} */
+body {
+    background: #41AEA9;
+    background: linear-gradient(90deg, #41AEA9 0%, #A6F6F1 0%, #E8FFFF 100%);
 }
 
 .link {

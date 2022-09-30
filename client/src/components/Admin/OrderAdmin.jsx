@@ -1,4 +1,4 @@
-import API from '../../utils/api';
+import API from '../../utilities/api';
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';

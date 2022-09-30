@@ -11,15 +11,15 @@ import { Link } from "react-router-dom";
 const Item = ({ item }) => {
   return (
     <Box m={5}>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 345, borderRadius: "15px", mx: "auto" }}>
         <CardMedia
           component="img"
           alt="green iguana"
-          height="240"
+          height="200"
           image={item.thumbnail}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h4" component="div">
             {item.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -27,8 +27,13 @@ const Item = ({ item }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Link style={{ textDecoration: "none", color: "black" }} to={`/store/${item._id}`}>
-            <Button size="small">View</Button>
+          <Link
+            style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+            to={`/store/${item._id}`}
+          >
+            <Button size="large" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} color="error">
+              View
+            </Button>
           </Link>
         </CardActions>
       </Card>

@@ -1,4 +1,4 @@
-import API from "../../utils/api";
+import API from "../../utilities/api";
 import { useState, useEffect } from "react";
 import Loader from "../utils/Loader";
 import { styled } from "@mui/material/styles";
@@ -44,6 +44,7 @@ const Cart = () => {
   const cartState = useSelector((state) => state.cart);
   const userState = useSelector((state) => state.user);
 
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -54,8 +55,8 @@ const Cart = () => {
       }
     })
       .then(({ data }) => {
-        dispatch(createCart(data.cart));
         setIsLoading(false);
+        dispatch(createCart(data.cart));
       })
       .catch((err) => {
         console.log("Error getting cart data", err);
@@ -80,9 +81,7 @@ const Cart = () => {
     }
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  if (isLoading) return <Loader />;
 
   return (
     <TableContainer component="div" m={5} align="center">
@@ -103,7 +102,7 @@ const Cart = () => {
       >
         CART
       </Typography>
-      {!cartState ? (
+      {cartState.products.length === 0 ? (
         <Typography
           variant="h2"
           component="div"

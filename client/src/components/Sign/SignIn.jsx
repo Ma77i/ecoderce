@@ -1,9 +1,4 @@
-import API from "../../utils/api";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { modifyUser } from "../../redux/states/user";
-import { modifyAuth } from "../../redux/states/auth/authSlice";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -14,32 +9,15 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { ThemeProvider } from "@mui/material/styles";
 
-
-const SignIn = ({ theme }) => {
-  const dispatch = useDispatch();
+const SignIn = ({ onSubmit }) => {
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
-  const navigate = useNavigate();
-
-  const onSubmit = (data) => {
-    API.post(`/api/sign/login`, data)
-      .then((res) => {
-        dispatch(modifyUser(res.data.user));
-        dispatch(modifyAuth(res.data));
-        navigate("/store");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
-    <ThemeProvider theme={theme}>
       <Box
         sx={{
           marginTop: 8,
@@ -54,7 +32,6 @@ const SignIn = ({ theme }) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {/* <Box component="form" onSubmit={handleSubmitLogin} noValidate sx={{ mt: 1 }}> */}
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -76,7 +53,7 @@ const SignIn = ({ theme }) => {
             type="password"
             id="password"
             autoComplete="current-password"
-            {...register("password", { required: "Required" })}
+            {...register("password", { required: "Password is Required" })}
             error={Boolean(errors.password)}
             helperText={errors.password?.message}
           />
@@ -101,7 +78,6 @@ const SignIn = ({ theme }) => {
           </Grid>
         </Box>
       </Box>
-    </ThemeProvider>
   );
 };
 

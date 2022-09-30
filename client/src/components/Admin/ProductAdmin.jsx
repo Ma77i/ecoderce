@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import API from '../../utils/api';
+import API from '../../utilities/api';
 import { Button } from '@mui/material';
 
 
